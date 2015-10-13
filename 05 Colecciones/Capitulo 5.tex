@@ -1,5 +1,7 @@
 \documentclass[a4paper,12pt]{book}
 
+\setlength{\headheight}{1.1\baselineskip}
+ 
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 
@@ -21,7 +23,9 @@
 \usepackage{placeins}
 
 % Para insertar código
+\usepackage{xcolor}
 \usepackage{listings}
+\input{macros}  
 
 \ifoot[]{}
 \cfoot{\thepage\ of \pageref{LastPage} }
@@ -34,23 +38,6 @@
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
-
-\lstset{frame=tb,
-  language=Java,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true,
-  tabsize=3
-}
 
 \begin{document}
 
@@ -159,55 +146,142 @@ encuentros, él anota los datos de la misión en su diario personal. Cada vez qu
 el héroe la marca como “cumplida”. Toda misión suma en el camino del héroe: las misiones tienen una
 recompensa de oro, y de respeto.
 \\
+\\
 ¿Qué abstracciones surgen? El héroe ahora tiene una colección de misiones. En principio vamos a pensar en
 dos tipos de misiones: 1) buscar un ítem mágico, 2) liberar a una doncella. Las misiones deben tener una
 recompensa (más adelante podemos modelar unidades de oro o de respeto para ello), un solicitante y el estado,
-que puede ser pendiente, cumplida o abandonada. Además nos avisan que existen misiones difíciles, que son
+que puede ser pendiente o cumplida. Además nos avisan que existen misiones difíciles, que son
 aquellas en las que el encargado es un ser justo, y además
 \begin{itemize}
  \item si la montaña donde está el ítem a buscar queda a más de 100 kms. o bien 
  \item si la doncella a liberar está custodiada por más de 4 trolls
 \end{itemize}
 
-\subsection{Clases a crear}
-Creamos la clase Mision, 
-\subsection{Iniciamos un workspace}
-Abrimos un Workspace de trabajo y vamos a inicializar un juego de variables nuevo:
+\subsection{Clases a crear - versión 0}
+Vamos a crear lo mínimo necesario para poder meternos de lleno en el ejemplo de las colecciones.
+Ahora el héroe tendrá una colección de misiones:
+
 \begin{lstlisting}[frame=single]
-diego := Heroe new
-heroe agregarMision: (BuscarItemMagico new)
+Object subclass: #Heroe
+	instanceVariableNames: 'misiones ...'
 \end{lstlisting}
+
+También vamos a crear una misión posible: BuscarItemMagico, por el momento sin atributos, porque nos queremos
+seguir concentrando en la interfaz y no en la implementación, es decir, qué me ofrece el objeto y no cómo lo
+resuelve.
+
+Para poder agregar una misión, vamos a definir un método explícito:
+
+\begin{code}
+#Heroe
+agregarMision: unaMision
+  misiones add: unaMision
+\end{code}
+
+\subsection{Iniciamos un Playground}
+Abrimos un Workspace de trabajo y vamos a inicializar un juego de variables nuevo:
+
+\begin{code}
+diego := Heroe new
+  agregarMision: (BuscarItemMagico new)
+\end{code}
+
+Al intentar enviar el mensaje agregarMision: a diego se produce este error
+
+\begin{figure}[h!]
+    \centering	
+    \includegraphics[width=0.9\textwidth]{images/11_error_agregarMision.png}
+    \caption{La pantalla de \textit{debugging} muestra que el error ocurre al enviar el mensaje add: a misiones}
+\end{figure}
+\FloatBarrier
+
+Esto se da porque la referencia a misiones quedó en nil. 
+
+\begin{figure}[h!]
+    \centering	
+    \includegraphics[width=0.9\textwidth]{images/12_error_debugging_2.png}
+    \caption{misiones es una referencia a nil, ¡falta inicializarla!}
+\end{figure}
+\FloatBarrier
+
+Entonces debemos inicializar a diego cuando creemos el guerrero, esto lo podemos hacer manualmente o con la opción
+Analyze \textgreater Generate initialize method
+
+\begin{figure}[h!]
+    \centering	
+    \includegraphics[width=0.9\textwidth]{images/13_generate_initialize.png}
+    \caption{Generando un método initialize a través del IDE}
+\end{figure}
+\FloatBarrier
+
+Comenzaremos usando un Set como colección, esto presupone que no nos importa el orden en el que almacenamos las
+misiones y que no hay elementos duplicados: puede haber muchas liberaciones de doncellas, pero cada una 
+representa una misión distinta. El Set es la implementación más equivalente al concepto matemático de conjunto
+que presentamos anteriormente.
+\\
+Ahora sí nuestro método nos queda
+
+\begin{code}
+#Heroe
+initialize
+	super initialize.
+	misiones := Set new.
+\end{code}
+
+y al grabarlo volvemos al Playground y ejecutamos nuevamente el código mediante Do It
+
+\begin{code}
+diego := Heroe new
+  agregarMision: (BuscarItemMagico new)
+\end{code}
+
+vemos que el mensaje tuvo efecto inspeccionando la referencia diego: escribimos diego y luego Inspect It:
+
+\begin{figure}[h!]
+    \centering	
+    \includegraphics[width=0.9\textwidth]{images/14_coleccion_inicial.png}
+    \caption{diego es un héroe y tiene una referencia en la colección misiones}
+\end{figure}
+\FloatBarrier
+
 
 \subsection{Conocer el tamaño}
 ¿Cómo sabemos cuántas misiones tiene un héroe?
 
 \begin{lstlisting}[frame=single]
-// Heroe
+#Heroe
 cantidadMisiones
     ^misiones size
 \end{lstlisting}
 Y lo probamos, sabiendo que nos importa lo que va a devolver porque no es un método que tenga efecto, sino que
-devuelve información, entonces elegimos la opción \textit{Display It}:
-\begin{lstlisting}[frame=single]
-diego cantidadMisiones
-\end{lstlisting}
+devuelve información, entonces elegimos la opción \textit{Print It}:
+
+\begin{figure}[h!]
+    \centering	
+    \includegraphics[width=0.6\textwidth]{images/15_diego_cantidadMisiones.png}
+    \caption{diego tiene por el momento una sola misión}
+\end{figure}
+\FloatBarrier
 
 \subsection{Saber si tiene elementos}
 Queremos saber si un héroe tiene misiones...
 
 \begin{lstlisting}[frame=single]
 // Heroe
-// Opción 1
+// Opcion 1
 tieneMisiones
     ^misiones notEmpty
+\end{lstlisting}
+
     
-// Opción 2
+\begin{lstlisting}[frame=single]
+// Opcion 2
 tieneMisiones
     ^misiones size > 0
 \end{lstlisting}
 
 Ambas opciones parecen similares, de todas maneras la primera opción es más \textit{expresiva}. En la segunda
-opción hay una traducción implícita: size > 0.... ah, es si tiene elementos. Es un detalle, pero un detalle que
+opción hay una traducción implícita: size \textgreater  0.... ah, es si tiene elementos. Es un detalle, pero un detalle que
 implica tiempo que se pierde cada vez que vaya a leer la implementación de este método.
 
 Lo probamos...
@@ -215,6 +289,20 @@ Lo probamos...
 diego tieneMisiones
 \end{lstlisting}
 
+\subsection{Clases a crear - versión 1}
+Creamos la clase Mision, con atributos solicitante, recompensa y fecha de cumplimiento. Para cada uno de ellos 
+definiremos los accessors correspondientes, haciendo botón derecho sobre la clase Mision > Refactoring > 
+Inst Var Refactoring > Accessors 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/10_accessors.png}
+    \caption{El plantel de jugadores de un equipo como una colección de objetos}
+\end{figure}
+Dos subclases heredarán de Mision: 
+\begin{itemize}
+ \item BuscarItemMagico, necesitamos el atributo distanciaMontania
+ \item LiberarDoncella, del cual necesitamos el atributo trollsSeguridad
+\end{itemize}
 
 * Interfaz de las colecciones siguiendo el ejemplo
   * Conocer el tamaño

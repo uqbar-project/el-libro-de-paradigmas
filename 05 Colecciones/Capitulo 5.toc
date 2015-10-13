@@ -5,6 +5,8 @@
 \contentsline {subsection}{\numberline {1.1.2}Representaci\IeC {\'o}n de colecciones}{4}{subsection.1.1.2}
 \contentsline {section}{\numberline {1.2}Interfaz de una colecci\IeC {\'o}n}{6}{section.1.2}
 \contentsline {section}{\numberline {1.3}Un ejemplo concreto}{6}{section.1.3}
-\contentsline {subsection}{\numberline {1.3.1}Clases a crear}{7}{subsection.1.3.1}
-\contentsline {subsection}{\numberline {1.3.2}Iniciamos un workspace}{7}{subsection.1.3.2}
-\contentsline {subsection}{\numberline {1.3.3}Conocer el tama\IeC {\~n}o}{7}{subsection.1.3.3}
+\contentsline {subsection}{\numberline {1.3.1}Clases a crear - versi\IeC {\'o}n 0}{7}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}Iniciamos un Playground}{7}{subsection.1.3.2}
+\contentsline {subsection}{\numberline {1.3.3}Conocer el tama\IeC {\~n}o}{10}{subsection.1.3.3}
+\contentsline {subsection}{\numberline {1.3.4}Saber si tiene elementos}{10}{subsection.1.3.4}
+\contentsline {subsection}{\numberline {1.3.5}Clases a crear - versi\IeC {\'o}n 1}{11}{subsection.1.3.5}
