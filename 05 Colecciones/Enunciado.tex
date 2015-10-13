@@ -1,0 +1,69 @@
+Juego de rol con manejo de equipo (Baldur’s Gate)
+
+La idea seria programar algo similar a lo que seria baldur’s gate, (un juego actual similar seria, mas bien, el dragon age). 
+En estos juegos uno tiene un personaje propio, pero ademas maneja un grupo de personajes. 
+
+El estilo en general esta basado en dungeon and dragons. Este estilo de juego, a la hora de programar 
+es realmente muy complejo, siendo que cada personaje tiene una raza (humano, elfo, halfling, etc), 
+una o mas clases (ladrón, paladin, hechicero, mago, etc) con clases prestige (clases de especialización). 
+Y esto es antes de poder siquiera pensar en los atributos psicofisicos y/o el transfondo del personaje . 
+
+Lo que propongo entonces seria pensar en un juego donde uno puede tener un grupo de personajes. 
+Y este grupo de personajes tendría que ser capaz de completar una misión. (por ejemplo, pelearse con otro grupo) 
+
+Pero empecemos desde el principio
+Un personaje en este tipo de juego tiene que tener vida y alguna forma de energía utilizable para los poderes
+especiales. De entrada estas barras se pueden llenar a través de alimentos y/o pociones. Creo que no tiene sentido
+pensar en diferentes tipos de energía, ya que con un tipo es suficiente para llegar a comprender el concepto detrás.
+Pero en caso de que se crea necesario, puede haber pociones de diferentes tipos, para diferentes tipos de energía.
+Pociones de magia, aguante (stamina), vida, etc.  
+
+Entonces acá ya tenemos una pepita que come y toma objetos que le dan vida y energía.
+
+Una vez acá, podemos empezar a pensar como modelar el personaje en términos de su rol en el juego: podemos
+usar el sistema de clases de dungeon and dragons, que es estricto “el mago hace a b y c” o algún modelo mas dinámico,
+donde cada personaje sea mas bien personalizable y uno puede darle habilidades puntuales como “uso de armas blancas”
+“casteo de magia” “uso de magia” “uso de habilidades acrobáticas” etc.
+
+Creo que para PDEP, el sistema de clases va a ser lo mas interesante, mientras que para diseño/old tadp,
+sin dudas el modelo dinámico tiene mucho a explotar. 
+
+Una vez tengamos el primer modelo de personaje usable, por ejemplo un mago, podemos equiparlo con una varita mágica
+y hacerlo atacar otro personaje… a distancia (acá tendríamos el uso de energía y también el modelo age of empires
+de ataque). Ahora podemos agregar otro modelo de personaje, por ejemplo un guerrero, a quien no pueda equiparse
+con una varita tal vez. Y quien pueda usar armadura (para disminuir el daño) y espada, para atacar cuerpo a cuerpo. 
+
+De la misma manera podemos agregar otros modelos de personaje. pero hasta acá creo que con dos alcanza.
+Una vez tengamos dos tipos de personajes, podemos tener nuestro equipo. Cuando tenemos un equipo tenemos
+dos tipos de formas de interactuar con nuestros personajes: individualmente o como equipo. En el manejo a
+nivel de equipo entraría sin problemas un buen polimorfismo y colecciones. 
+
+Como bonus track para diseño/old tadp se podría pensar en nivel estratégico, por ejemplo, cuando uno pide que
+el grupo se mueva de un lado a otro, que se muevan en cierta formación, o que frente a ciertas circunstancias
+(vida al 20\% ponele) hagan algo (tomar una poción de vida o comerse un pancho).
+
+Una vez que tengamos esto podemos tener dos grupos y hacer que se peleen. Acá podemos hacerlo fácil para pdep, 
+pensando tal vez en que el grupo pelee con un monstruo grande (para lo que necesitaríamos un monstruo), 
+para diseño/tadp podemos pensar en estrategias para que un grupo ataque al otro, por ejemplo, matar primero al
+hechicero enemigo que mas daño hace es siempre una gran estrategia. Que se peleen si no seleccionando como target
+el enemigo contra el que tengan mas ventaja. 
+
+Una vez que tengamos la pelea entre dos grupos, creo que ya explotamos lo suficiente este aspecto y podemos pasar
+a la idea de misión. Por ejemplo, recuperar una gema de un grupo de ladrones. Para esto haría falta agregarle
+una mochila a cada personaje. Sin duda acá podemos meter el uso de observer o similar. 
+
+Otros tipos de misiones habilitarían demandar un análisis de estado de cada personaje, de ahí puede salir un observer. 
+
+- Este ejemplo se puede mantener simple, a nivel pepita ++ y se puede complicar hasta donde se quiera (por ejemplo, 
+se puede agregar la ‘tirada de dados’ para calcular la probabilidad/cantidad de daño, se puede agregar comercio, 
+etc). Hay que tener en cuenta que cada agregado puede complicar las cosas de manera exponencial (por ejemplo, no se
+si me atrevería a poner items especiales que hagan otra cosa que no sea reducir el daño o aumentar el máximo de
+vida/energia, así como tampoco a modelar hechizos de penalización o bonificación) 
+
+- A través del concepto de misión se puede proponer una suite de tests que hagan que se pueda comprobar a
+cierto nivel que un ejercicio este bien hecho. (lo que lo haría compatible con la idea general de aprendizaje
+menos-supervisado).
+
+- Pertenece al género video juegos (compatible con la idea de usar wollok games) , lo que si, de un lado que
+podría ser un poco menos casual, por lo que tal vez tendría menos llegada al lado que cada uno de considera
+potencialmente ‘divertido’. 

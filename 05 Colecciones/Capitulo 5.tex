@@ -1,0 +1,248 @@
+\documentclass[a4paper,12pt]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+\usepackage{geometry}
+\usepackage[sc]{mathpazo}
+
+\usepackage{amsmath}
+
+\usepackage[usenames,dvipsnames]{color} 
+\usepackage{hyperref}
+\usepackage{alltt}
+
+% Para footer con páginas
+\usepackage{scrpage2}
+\usepackage{lastpage}
+
+% Para insertar imágenes y ubicarlas
+\usepackage{graphicx}
+\usepackage{placeins}
+
+% Para insertar código
+\usepackage{listings}
+
+\ifoot[]{}
+\cfoot{\thepage\ of \pageref{LastPage} }
+\ofoot[]
+
+\pagestyle{scrplain}
+
+\vspace{0.1in}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\begin{document}
+
+\chapter{Colecciones}
+Las colecciones son un concepto importante y poderoso al diseñar con objetos. En este capítulo veremos cómo
+se modela el conocimiento de un conjunto de referencias de un objeto y su utilización para resolver un problema
+concreto.
+\\
+\\
+Agradezco a Victoria Pocladova, Carlos Lombardi, Leonardo Volinier y Jorge Silva por el artículo 
+``Colecciones en Smalltalk'' del sitio web \\
+\begin{minipage}[t]{0.5\textwidth}
+     \href{http://pdep.com.ar/material/apuntes}{{\color{blue}http://pdep.com.ar/material/apuntes}}
+\end{minipage}
+\\que en conjunto con el material que he preparado convergió en
+el presente apunte.
+\\
+ \hfill Fernando Dodino
+
+\tableofcontents
+
+\section{Introducción}
+
+\subsection{¿Qué es una colección?}
+La colección nos permite representar un conjunto de objetos relacionados: los jugadores de un equipo de fútbol, 
+un cardumen de peces, las cosas que un héroe guarda en su mochila, un ejército, son ejemplos de este
+tipo de abstracciones.\\
+\\
+Otra definición posible es que una colección nos sirve para modelar una relación 1 a N:\\
+\begin{itemize}
+\item Una factura tiene muchas líneas con productos
+\item Un escritor publicó varios libros
+\item Una fiesta tiene muchos invitados
+\item Un héroe tiene que cumplir varias misiones
+\end{itemize}
+
+A primera vista una colección es un conjunto de objetos. Si la vemos con más precisión nos damos cuenta que es más
+preciso pensarla como un conjunto de referencias: los elementos no están adentro de la colección, sino que la
+colección los conoce. 
+\\
+\\
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/01_GraficoInicial_Colecciones.png}
+    \caption{La colección es un conjunto de referencias a otros objetos}
+\end{figure}
+\\
+\subsection{Representación de colecciones}
+Podemos graficar la relación dinámica entre un equipo de fútbol y los jugadores que lo integran mediante un diagrama
+de objetos. Este es un diagrama con características \textit{dinámicas}, porque muestra el estado 
+de los objetos en un momento determinado.
+\\
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/02_Diagrama_Objetos_Equipo.png}
+    \caption{El plantel de jugadores de un equipo como una colección de objetos}
+\end{figure}
+\FloatBarrier
+También podemos generar un diagrama de clases en UML de la misma relación:
+\begin{figure}[h!]
+    \centering	
+    \includegraphics[width=0.9\textwidth]{images/03_Diagrama_Clases_Equipo.png}
+    \caption{El plantel de jugadores, visto al nivel de clases}
+\end{figure}
+\FloatBarrier
+Este es un diagrama con características \textit{estáticas}, porque no depende de un caso particular
+sino que muestra las relaciones entre las clases.\\
+\\
+¿Qué es lo que cuenta el diagrama? Que un equipo \textbf{tiene} jugadores, el conector marca una relación
+de \textbf{asociación}: hay un atributo plantel en la clase Equipo (el nombre del atributo se marca en uno
+de los extremos de la asociación). El asterisco (*) muestra la multiplicidad: un equipo tiene muchos jugadores.
+La dirección marca qué objeto conoce a los otros: como la flecha va de Equipo a Jugador sabemos que cada equipo
+tiene n jugadores, no conocemos qué características tiene la relación de Jugador a Equipo, pero se pueden dar
+dos opciones:
+\begin{itemize}
+\item un jugador pertenece a un solo equipo, en ese caso la relación Equipo-Jugador es de \textbf{uno a muchos}
+\item un jugador participa en una relación con varios equipos (por ejemplo, porque nos interesa saber
+en qué equipos jugó). En ese caso la relación es de \textbf{muchos a muchos}
+\end{itemize}
+
+\section{Interfaz de una colección}
+Supongamos que tenemos un album de fotos, otra representación posible de una colección de objetos.
+¿Qué podemos hacer con esas fotografías?
+\\
+\begin{itemize}
+\item Mirarlas, ``recorrerlas'': iterar una colección
+\item Averiguar cuántas fotos hay: saber su longitud
+\item Saber si está una determinada foto en el album: saber si un elemento pertenece a la colección
+\item Pegar una foto nueva: agregar un elemento a la colección
+\item Regalar una foto a alguien: eliminar un elemento de la colección
+\item Buscar qué fotos son de Ushuaia: filtrar/seleccionar elementos de una colección
+\item Anotar las personas que salieron en mis fotos: transformar los elementos de una colección
+\item Saber si hay alguna foto de Navidad: determinar si alguno/todos los elementos satisfacen 
+un criterio
+\end{itemize}
+En el último requerimiento aparece también la idea de conjunto vacío. 
+En general podemos asociar la noción matemática de conjunto a la colección, aunque sabemos que el conjunto
+matemático no tiene orden, ni se ``recorre'', mientras que en la colección eso depende de la intención que
+nosotros tengamos, como veremos más adelante.
+\\
+\section{Un ejemplo concreto}
+En ciertos casilleros el héroe puede encontrar misiones y nuevos objetivos. Por ejemplo, un mago puede
+encargarle buscar un ítem mágico en una montaña lejana. Un anciano puede encargarle liberar a su hija de
+los terribles trolls que habitan en la gruta de los sin nariz. Cada vez que un héroe tiene uno de estos
+encuentros, él anota los datos de la misión en su diario personal. Cada vez que una misión es superada,
+el héroe la marca como “cumplida”. Toda misión suma en el camino del héroe: las misiones tienen una
+recompensa de oro, y de respeto.
+\\
+¿Qué abstracciones surgen? El héroe ahora tiene una colección de misiones. En principio vamos a pensar en
+dos tipos de misiones: 1) buscar un ítem mágico, 2) liberar a una doncella. Las misiones deben tener una
+recompensa (más adelante podemos modelar unidades de oro o de respeto para ello), un solicitante y el estado,
+que puede ser pendiente, cumplida o abandonada. Además nos avisan que existen misiones difíciles, que son
+aquellas en las que el encargado es un ser justo, y además
+\begin{itemize}
+ \item si la montaña donde está el ítem a buscar queda a más de 100 kms. o bien 
+ \item si la doncella a liberar está custodiada por más de 4 trolls
+\end{itemize}
+
+\subsection{Clases a crear}
+Creamos la clase Mision, 
+\subsection{Iniciamos un workspace}
+Abrimos un Workspace de trabajo y vamos a inicializar un juego de variables nuevo:
+\begin{lstlisting}[frame=single]
+diego := Heroe new
+heroe agregarMision: (BuscarItemMagico new)
+\end{lstlisting}
+
+\subsection{Conocer el tamaño}
+¿Cómo sabemos cuántas misiones tiene un héroe?
+
+\begin{lstlisting}[frame=single]
+// Heroe
+cantidadMisiones
+    ^misiones size
+\end{lstlisting}
+Y lo probamos, sabiendo que nos importa lo que va a devolver porque no es un método que tenga efecto, sino que
+devuelve información, entonces elegimos la opción \textit{Display It}:
+\begin{lstlisting}[frame=single]
+diego cantidadMisiones
+\end{lstlisting}
+
+\subsection{Saber si tiene elementos}
+Queremos saber si un héroe tiene misiones...
+
+\begin{lstlisting}[frame=single]
+// Heroe
+// Opción 1
+tieneMisiones
+    ^misiones notEmpty
+    
+// Opción 2
+tieneMisiones
+    ^misiones size > 0
+\end{lstlisting}
+
+Ambas opciones parecen similares, de todas maneras la primera opción es más \textit{expresiva}. En la segunda
+opción hay una traducción implícita: size > 0.... ah, es si tiene elementos. Es un detalle, pero un detalle que
+implica tiempo que se pierde cada vez que vaya a leer la implementación de este método.
+
+Lo probamos...
+\begin{lstlisting}[frame=single]
+diego tieneMisiones
+\end{lstlisting}
+
+
+* Interfaz de las colecciones siguiendo el ejemplo
+  * Conocer el tamaño
+  * Agregar un elemento
+  * Sacar un elemento
+  * Saber si tiene elementos
+  * Buscar un elemento
+  * Filtrar elementos que cumplan un criterio
+  * Transformar los elementos de una colección generando otra colección
+  * Totalizar valores que almacenan objetos de una colección, reducir una colección a un valores
+  * Operatorias con conjuntos: includes/contains, union, intersection.
+  * Saber si todos/algún elemento cumple una condición
+  * Bloque de código y Declaratividad
+* Iteradores externos e internos
+* Tipos de colecciones. Estáticas vs. dinámicas. Ordenadas y sin ordenar. Con índices.
+  Colecciones estáticas (Ejemplos de cada una de ellas. Formas de agregar elementos.)
+  * Array
+  * String
+  * Interval
+  
+  Colecciones dinámicas
+  * Bag?
+  * Set
+  * List/Ordered Collection
+  * SortedCollection
+  * Map/Dictionary
+  * Comparativa general
+
+  
+  
+\end{document}
