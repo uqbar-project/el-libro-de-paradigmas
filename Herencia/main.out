@@ -1,0 +1,12 @@
+\BOOKMARK [0][-]{chapter.1}{Herencia}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Introducci\363n}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Clasificando Objetos con Herencia}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Herencia}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{Method Lookup}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.5}{self vs super}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.6}{Clases concretas vs clases abstractas}{chapter.1}% 7
+\BOOKMARK [1][-]{section.1.7}{Criterios para utilizar herencia}{chapter.1}% 8
+\BOOKMARK [2][-]{subsection.1.7.1}{Usar Objetos vs Clases}{section.1.7}% 9
+\BOOKMARK [2][-]{subsection.1.7.2}{Especializar vs Generalizar}{section.1.7}% 10
+\BOOKMARK [2][-]{subsection.1.7.3}{subclase vs subtipo}{section.1.7}% 11
+\BOOKMARK [2][-]{subsection.1.7.4}{Herencia vs composici\363n}{section.1.7}% 12
