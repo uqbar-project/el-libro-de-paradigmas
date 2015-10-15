@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.5)  14 OCT 2015 17:03
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.5)  15 OCT 2015 15:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1013,13 +1013,13 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 72.
 [3]
-<images/01_GraficoInicial_Colecciones.png, id=101, 431.6125pt x 263.98625pt>
-File: images/01_GraficoInicial_Colecciones.png Graphic file (type png)
+<images/01_GraficoInicial_Colecciones.pdf, id=101, 362.35374pt x 253.94875pt>
+File: images/01_GraficoInicial_Colecciones.pdf Graphic file (type pdf)
 
-<use images/01_GraficoInicial_Colecciones.png>
-Package pdftex.def Info: images/01_GraficoInicial_Colecciones.png used on input
+<use images/01_GraficoInicial_Colecciones.pdf>
+Package pdftex.def Info: images/01_GraficoInicial_Colecciones.pdf used on input
  line 84.
-(pdftex.def)             Requested size: 334.60422pt x 204.65973pt.
+(pdftex.def)             Requested size: 334.60422pt x 234.50366pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 77--88
 
@@ -1042,7 +1042,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language append on input line 88.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 88.
-<images/02_Diagrama_Objetos_Equipo.png, id=103, 552.0625pt x 223.83624pt>
+<images/02_Diagrama_Objetos_Equipo.png, id=102, 552.0625pt x 223.83624pt>
 File: images/02_Diagrama_Objetos_Equipo.png Graphic file (type png)
 
 <use images/02_Diagrama_Objetos_Equipo.png>
@@ -1077,8 +1077,8 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language append on input line 98.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 98.
-[4 <./images/01_GraficoInicial_Colecciones.png>]
-<images/03_Diagrama_Clases_Equipo.png, id=111, 451.6875pt x 96.36pt>
+[4 <./images/01_GraficoInicial_Colecciones.pdf>]
+<images/03_Diagrama_Clases_Equipo.png, id=134, 451.6875pt x 96.36pt>
 File: images/03_Diagrama_Clases_Equipo.png Graphic file (type png)
 
 <use images/03_Diagrama_Clases_Equipo.png>
@@ -1215,7 +1215,7 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 184.
 
-<images/16_crear_nueva_clase.png, id=124, 474.77374pt x 183.68625pt>
+<images/16_crear_nueva_clase.png, id=147, 474.77374pt x 183.68625pt>
 File: images/16_crear_nueva_clase.png Graphic file (type png)
 
 <use images/16_crear_nueva_clase.png>
@@ -1247,7 +1247,7 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 199.
  [7]
-<images/11_error_agregarMision.png, id=141, 654.445pt x 302.12875pt>
+<images/11_error_agregarMision.png, id=165, 654.445pt x 302.12875pt>
 File: images/11_error_agregarMision.png Graphic file (type png)
 
 <use images/11_error_agregarMision.png>
@@ -1255,7 +1255,7 @@ Package pdftex.def Info: images/11_error_agregarMision.png used on input line 2
 16.
 (pdftex.def)             Requested size: 292.77629pt x 135.15912pt.
 
-<images/12_error_debugging_2.png, id=142, 649.42625pt x 291.0875pt>
+<images/12_error_debugging_2.png, id=166, 649.42625pt x 291.0875pt>
 File: images/12_error_debugging_2.png Graphic file (type png)
 
 <use images/12_error_debugging_2.png>
@@ -1300,7 +1300,7 @@ LaTeX Font Warning: Font shape `OML/pplx/m/n' undefined
 (Font)              using `OML/cmm/m/it' instead
 (Font)              for symbol `textgreater' on input line 231.
 
-<images/13_generate_initialize.png, id=156, 931.48pt x 703.62875pt>
+<images/13_generate_initialize.png, id=179, 931.48pt x 703.62875pt>
 File: images/13_generate_initialize.png Graphic file (type png)
 
 <use images/13_generate_initialize.png>
@@ -1337,7 +1337,7 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 247.
 [9 <./images/12_error_debugging_2.png> <./images/13_generate_initialize.png>]
-<images/14_coleccion_inicial.png, id=165, 597.23125pt x 359.3425pt>
+<images/14_coleccion_inicial.png, id=188, 597.23125pt x 359.3425pt>
 File: images/14_coleccion_inicial.png Graphic file (type png)
 
 <use images/14_coleccion_inicial.png>
@@ -1381,7 +1381,7 @@ Package babel Info: Redefining spanish shorthand "!
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 277.
  [10 <./images/14_coleccion_inicial.png>]
-<images/15_diego_cantidadMisiones.png, id=179, 294.09875pt x 41.15375pt>
+<images/15_diego_cantidadMisiones.png, id=202, 294.09875pt x 41.15375pt>
 File: images/15_diego_cantidadMisiones.png Graphic file (type png)
 
 <use images/15_diego_cantidadMisiones.png>
@@ -1417,7 +1417,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language append on input line 319.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 319.
-<images/10_accessors.png, id=180, 995.72pt x 703.62875pt>
+<images/10_accessors.png, id=203, 995.72pt x 703.62875pt>
 File: images/10_accessors.png Graphic file (type png)
 
 <use images/10_accessors.png>
@@ -1595,7 +1595,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language append on input line 510.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language append on input line 510.
-[15] <images/17_error_bloque.png, id=317, 849.1725pt x 351.3125pt>
+[15] <images/17_error_bloque.png, id=340, 849.1725pt x 351.3125pt>
 File: images/17_error_bloque.png Graphic file (type png)
 
 <use images/17_error_bloque.png>
@@ -1753,10 +1753,10 @@ f-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/palatino/uplb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/pa
 latino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplri
 8a.pfb>
-Output written on "Capitulo 5.pdf" (18 pages, 536940 bytes).
+Output written on "Capitulo 5.pdf" (18 pages, 542249 bytes).
 PDF statistics:
- 421 PDF objects out of 1000 (max. 8388607)
- 376 compressed objects within 4 object streams
+ 444 PDF objects out of 1000 (max. 8388607)
+ 390 compressed objects within 4 object streams
  208 named destinations out of 1000 (max. 500000)
  184 words of extra memory for PDF output out of 10000 (max. 10000000)
 
