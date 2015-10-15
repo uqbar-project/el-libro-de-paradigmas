@@ -81,13 +81,56 @@ Usar distintas clases para guerreros y arqueros nos permite definir distintos co
 
 \section{Clasificando Objetos con Herencia}
 
-\gp{diagrama de venn}
+Previamente estudiamos cómo las clases nos permiten clasificar objetos similares. Todos los objetos de la misma clase tienen comportamiento y estructura similar. Por ejemplo, Diego y Jorge son dos guerreros que poseen un arma y atacan de la misma manera. De la misma manera podemos encontrar otras clasificaciones de objetos que tienen comportamientos y/o estructuras distintas como son los arqueros en nuestro ejemplo.
 
-\section{Herencia}
+Pese a que arqueros y guerreros pertenecen claramente a distintas clases de objetos dado que exhiben distinto comportamiento, ambos tienen también algunas características en común ya que ambos conforman nuestro grupo de héroes. La Figura \ref{fig:herencia_venn} muestra como se relacionan nuestros distintos objetos (Diego, Jorge y Sergio) utilizando un diagrama de Venn. En la figura vemos que Diego y Jorge está incluidos dentro del conjunto de guerreros y Sergio está incluido en el conjunto de arqueros. Ambos conjuntos están incluidos en un conjunto más grande y más abstracto: el conjunto de héroes. Si consideramos que los conjuntos distintos conjuntos definen clases en nuestro programa, entonces decimos que la clase \ct{Guerrero} son subclases de la clase \ct{Héroe}. De manera más general podemos definir esta relación de la siguiente manera:
 
-\section{Method Lookup}
+\begin{definition}\textbf{Superclase.} 
+Una clase $C1$ es superclase de una clase $C2$ si $C2$ define un subconjunto de $C1$.
+\end{definition}
 
-\section{\ct{self} vs \ct{super}}
+De manera recíproca, podemos definir la relación de subclase:
+
+\begin{definition}\textbf{Subclase.} 
+Una clase $C1$ es subclase de $C2$ si $C2$ es superclase de $C1$.
+\end{definition}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/venn_clasificacion.pdf}
+    \caption{Diagrama de Venn presentando las ideas de super-clasificación y sub-clasificaciones en nuestro ejemplo de héroes, guerreros y arqueros.\label{fig:herencia_venn}}
+\end{figure}
+
+
+\subsection{Herencia}
+
+Para representar la relación de sub y superclasificación entre clases usamos \emph{herencia}.
+La herencia es una relación entre dos clases donde una clase es superclase de la otra. Decimos que la subclase \emph{hereda} la estructura y el comportamiento de la superclase, permitiéndonos combinar el comportamiento definido en distintas clases. En nuestro ejemplo, podemos decir que un guerrero~(\ie una instancia de la clase \ct{Guerrero}) exhibe el comportamiento de un guerrero~(\ie el comportamiento definido en su clase) y el comportamiento de un héroe~(\ie el comportamiento definido en la superclase de su clase). Más aún, al separar el comportamiento de los héroes en la clase \ct{Héroe}, podemos compartirlo entre distintas clases de héroes.
+
+Podemos ilustrar la relación de herencia en un diagrama de clases tal y como aparece en \autoref{fig:herencia_uml}: una flecha con punta cerrada blanca que se dirige desde una subclase hacia una superclase.\gp{quizás es mejor mostrar un diagrama con una sola clase/subclase} Para efectuar la relación de herencia entre dos clases en Pharo, debemos modificar la definición de la clase como sigue, indicando que la clase \ct{Heroe} posee las subclases \ct{Arquero} y \ct{Guerrero}. 
+
+
+\begin{code}
+Heroe subclass: #Arquero
+	instanceVariableNames: 'flecha'.
+	
+Heroe subclass: #Guerrero
+	instanceVariableNames: 'arma'.
+\end{code}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/herencia}
+    \caption{Diagrama de clases representando la relación de herencia entre las clases \ct{Héroe}, \ct{Guerreros} y \ct{Arquero}.\label{fig:herencia_uml}}
+\end{figure}
+
+\subsection{Herencia de comportamiento}
+
+method lookup nueva version
+
+\subsection{Herencia de atributos}
+
+\subsection{\ct{self} y \ct{super}}
 
 
 method lookup revisited 2

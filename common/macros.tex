@@ -134,6 +134,11 @@ identifierstyle=\idstyle,
 %For simple inlined code
 \newcommand{\ct}{\texttt}
 
+%utiles e.g., i.e., c.f.
+\usepackage{xspace}
+\newcommand{\eg}{\emph{e.g.,}\xspace}
+\newcommand{\ie}{\emph{i.e.,}\xspace}
+\newcommand{\cf}{\emph{c.f.}\xspace}
 
 %For comments
 \usepackage{ifthen}
@@ -156,6 +161,7 @@ identifierstyle=\idstyle,
 \newcommand{\gp}[1]{\bnote{Guille}{#1}}
 \newcommand{\fd}[1]{\bnote{Fer}{#1}}
 
+\newtheorem{definition}{Definición}
 
 \newenvironment{codeNonSmalltalk}
 {\begin{alltt}\ttfamily}
