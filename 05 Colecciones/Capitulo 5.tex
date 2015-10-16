@@ -92,14 +92,14 @@ de los objetos en un momento determinado.
 \\
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/02_Diagrama_Objetos_Equipo.png}
+    \includegraphics[width=1.1\textwidth]{images/02_Diagrama_Objetos_Equipo.pdf}
     \caption{El plantel de jugadores de un equipo como una colección de objetos}
 \end{figure}
 \FloatBarrier
 También podemos generar un diagrama de clases en UML de la misma relación:
 \begin{figure}[h!]
     \centering	
-    \includegraphics[width=0.9\textwidth]{images/03_Diagrama_Clases_Equipo.png}
+    \includegraphics[width=0.9\textwidth]{images/03_Diagrama_Clases_Equipo.pdf}
     \caption{El plantel de jugadores, visto al nivel de clases}
 \end{figure}
 \FloatBarrier
@@ -138,7 +138,7 @@ En general podemos asociar la noción matemática de conjunto a la colección, a
 matemático no tiene orden, ni se ``recorre'', mientras que en la colección eso depende de la intención que
 nosotros tengamos, como veremos más adelante.
 \\
-\section{Un ejemplo concreto}
+\section{Un ejemplo concreto: Misiones de un héroe}
 En ciertos casilleros el héroe puede encontrar misiones y nuevos objetivos. Por ejemplo, un mago puede
 encargarle buscar un ítem mágico en una montaña lejana. Un anciano puede encargarle liberar a su hija de
 los terribles trolls que habitan en la gruta de los sin nariz. Cada vez que un héroe tiene uno de estos
@@ -160,14 +160,14 @@ y además
  \item si la doncella a liberar está custodiada por más de 4 trolls
 \end{itemize}
 
-\subsection{Clases a crear - versión 0}
+\subsection{Generar el atributo colección}
 Vamos a crear lo mínimo necesario para poder meternos de lleno en el ejemplo de las colecciones.
 Ahora el héroe tendrá una colección de misiones:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 Object subclass: #Heroe
 	instanceVariableNames: 'misiones ...'
-\end{lstlisting}
+\end{code}
 
 También vamos a crear una misión posible: BuscarItemMagico, por el momento sin atributos, porque nos queremos
 seguir concentrando en la interfaz y no en la implementación, es decir, qué me ofrece el objeto y no cómo lo
@@ -181,7 +181,7 @@ agregarMision: unaMision
   misiones add: unaMision
 \end{code}
 
-\subsection{Iniciamos un Playground}
+\subsection{Primeras pruebas}
 Abrimos un Workspace de trabajo o Playground y vamos a inicializar un juego de variables nuevo:
 
 \begin{code}
@@ -194,7 +194,7 @@ entonces lo creamos:
 
 \begin{figure}[h!]
     \centering	
-    \includegraphics[width=0.9\textwidth]{images/16_crear_nueva_clase.png}
+    \includegraphics[width=0.8\textwidth]{images/16_crear_nueva_clase.png}
     \caption{Creando una clase a demanda}
 \end{figure}
 \FloatBarrier
@@ -222,7 +222,7 @@ Esto se da porque la referencia a misiones quedó en nil.
 
 \begin{figure}[h!]
     \centering	
-    \includegraphics[width=0.9\textwidth]{images/12_error_debugging_2.png}
+    \includegraphics[width=1\textwidth]{images/12_error_debugging_2.png}
     \caption{misiones es una referencia a \textit{nil}, ¡falta inicializarla!}
 \end{figure}
 \FloatBarrier
@@ -271,14 +271,14 @@ Vemos que el mensaje tuvo efecto inspeccionando la referencia diego: escribimos 
 \FloatBarrier
 
 
-\subsection{Conocer el tamaño}
+\subsection{Conocer el tamaño de una colección}
 ¿Cómo sabemos cuántas misiones tiene un héroe?
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #Heroe
 cantidadMisiones
     ^misiones size
-\end{lstlisting}
+\end{code}
 Y lo probamos, sabiendo que nos importa lo que va a devolver porque no es un método que tenga efecto, sino que
 devuelve información, entonces elegimos la opción \textit{Print It}:
 
@@ -289,22 +289,22 @@ devuelve información, entonces elegimos la opción \textit{Print It}:
 \end{figure}
 \FloatBarrier
 
-\subsection{Saber si tiene elementos}
+\subsection{Saber si una colección tiene elementos}
 Queremos saber si un héroe tiene misiones...
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #Heroe
 // Opcion 1
 tieneMisiones
     ^misiones notEmpty
-\end{lstlisting}
+\end{code}
 
     
-\begin{lstlisting}[frame=single]
+\begin{code}
 // Opcion 2
 tieneMisiones
     ^misiones size > 0
-\end{lstlisting}
+\end{code}
 
 Ambas opciones parecen similares, de todas maneras la primera opción es más \textit{expresiva}. En la segunda
 opción hay una traducción implícita: size \textgreater  0.... ah, es si tiene elementos. Es un detalle, 
@@ -312,11 +312,11 @@ pero un detalle que implica tiempo que se pierde cada vez que vaya a leer la imp
 \\
 \\
 Lo probamos...
-\begin{lstlisting}[frame=single]
+\begin{code}
 diego tieneMisiones
-\end{lstlisting}
+\end{code}
 
-\subsection{Clases a crear - versión 1}
+\subsection{Subclases nuevas para Misión}
 Creamos la clase Mision, con atributos solicitante, recompensa, fecha de inicio y fecha de cumplimiento. 
 Para cada uno de ellos definiremos los accessors correspondientes, haciendo botón derecho sobre la clase
 Mision > Refactoring > Inst Var Refactoring > Accessors 
@@ -335,52 +335,52 @@ Dos subclases heredarán de Mision:
 
 Cambiaremos dinámicamente la superclase de BuscarItemMagico...
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 Mision subclass: #BuscarItemMagico
 	instanceVariableNames: 'distanciaMontania'
 	classVariableNames: ''
 	category: 'PDP-Book'
-\end{lstlisting}
+\end{code}
 
 Damos ok al mensaje de advertencia y ahora tenemos a BuscarItemMagico como subclase de Mision.
 \\
 \\
 Ahora definimos LiberarDoncella:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 Mision subclass: #LiberarDoncella
 	instanceVariableNames: 'trollsSeguridad'
 	classVariableNames: ''
 	category: 'PDP-Book'
-\end{lstlisting}
+\end{code}
 
 Una vez definidos los accessors, nos preguntamos: ¿qué comportamiento tiene una misión? Debe decirnos
 si es difícil. Sabemos que esto depende de algo general (más de 2 meses de iniciada una misión) y se
 especializa en cada subclase. Lo general... se codifica en la clase Misión:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #Mision
 esDificil
 	^(self estaIniciadaHace: 60)
-\end{lstlisting}
+\end{code}
 
 Claro, pero además debemos dejar que la misión delegue el comportamiento en cada implementación
-\begin{lstlisting}[frame=single]
+\begin{code}
 #Mision
 esDificil
 	^(self estaIniciadaHace: 60) && (self realmenteEsDificil)
-\end{lstlisting}
+\end{code}
 
 Antes de resolver el método realmenteEsDificil, dejamos una posible implementación de estaIniciadaHace:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #Mision
 estaIniciadaHace: xDias
       ^(self estaAbierta) && ((Date new subtractDate: fechaInicio) > xDias)
       
 estaAbierta
       ^fechaCumplimiento isNil       
-\end{lstlisting}
+\end{code}
 
 Ahora sí el método realmenteEsDificil depende de este requerimiento:
 \begin{itemize}
@@ -388,7 +388,7 @@ Ahora sí el método realmenteEsDificil depende de este requerimiento:
  \item si la doncella a liberar está custodiada por más de 4 trolls
 \end{itemize}
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #BuscarItemMagico
 realmenteEsDificil      
   ^distanciaMontania > 100
@@ -396,15 +396,15 @@ realmenteEsDificil
 #LiberarDoncella
 realmenteEsDificil      
   ^trollsSeguridad > 4
-\end{lstlisting}
+\end{code}
 
 Por motivos didácticos no vamos a explicar cómo se prueba la funcionalidad recientemente incorporada, pero
 sabemos que este paso es fundamental para no tener inconvenientes con los pasos que vamos a hacer a continuación.
 
-\subsection{Agregando nuevas misiones}
+\subsection{Nuevas misiones para el héroe}
 Vamos a asociar nuevas misiones a diego:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 diego := Heroe new
   agregarMision: (BuscarItemMagico new 
 			distanciaMontania: 1000;
@@ -431,34 +431,34 @@ diego := Heroe new
 			fechaInicio: (Date yesterday);
 			yourself).
 
-\end{lstlisting}
+\end{code}
 
-\subsection{Misiones abiertas y cumplidas}
+\subsection{Filtrar elementos de una colección}
 Queremos saber ahora qué misiones están abiertas.
 \begin{itemize}
  \item El héroe conoce a sus misiones
  \item pero cada misión debe determinar si está abierta o no (es su \textbf{responsabilidad}). 
 \end{itemize}
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #Heroe
 misionesAbiertas
   ^misiones select: [ :mision | mision estaAbierta ] 
-\end{lstlisting}
+\end{code}
 
 Redefinamos el printOn: de Misión para reflejar un poco más de información sobre el objeto:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #Mision
 printOn: aStream
    aStream nextPutAll: self descripcion;
-		nextPutAll: ' pedido para ';
+		nextPutAll: ' para ';
 		nextPutAll: self solicitante.
-\end{lstlisting}
+\end{code}
 
 Redefinimos el método descripción para cada subclase:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #BuscarItemMagico
 descripcion
   ^'Buscar item magico'
@@ -466,23 +466,23 @@ descripcion
 #LiberarDoncella
 descripcion
   ^'Liberar doncella'
-\end{lstlisting}
+\end{code}
   
 Probamos entonces las misiones abiertas:
-\begin{lstlisting}[frame=single]
+\begin{code}
 diego misionesAbiertas
-   a Set(Liberar doncella pedido para Old man 
-         Liberar doncella pedido para Old man 
-         Buscar item magico pedido para Mago de Oz 
-         Buscar item magico pedido para Mago Cacarulo)
-\end{lstlisting}
+   a Set(Liberar doncella para Old man 
+         Liberar doncella para Old man 
+         Buscar item magico para Mago de Oz 
+         Buscar item magico para Mago Cacarulo)
+\end{code}
 
 Claro, todas las misiones están abiertas. ¿Cómo cumplimos todas las misiones?
 \\
 \\
 Tenemos el mensaje menos simpático para enseñar, el do:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 #Heroe
 cumplirMisiones
   self misionesAbiertas do: [ :mision | mision cumplir ] 
@@ -490,21 +490,24 @@ cumplirMisiones
 #Mision
 cumplir
   fechaCumplimiento := Date new
-\end{lstlisting}
+\end{code}
 
 En el Playground le pedimos a diego que cumpla todas sus misiones pendientes:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 diego cumplirMisiones
-\end{lstlisting}
+\end{code}
 
 Y ahora veamos si efectivamente el método tuvo efecto:
-\begin{lstlisting}[frame=single]
+\begin{code}
 diego misionesAbiertas
       a Set()
-\end{lstlisting}
+\end{code}
 
-\subsection{Objetos bloque y declaratividad}
+Antes de continuar es importante saber que estuvimos usando un concepto central en el uso de las colecciones...
+\\
+
+\section{Objetos bloque y declaratividad}
 ¿Por qué dijimos que el método do: es el menos simpático? Porque si bien ignoramos de qué manera se recorre la
 colección tenemos la posibilidad de hacer algo con cada elemento de la colección, por ejemplo
 \begin{itemize}
@@ -519,26 +522,26 @@ queremos lograr (el qué). Para eso utilizaremos objetos \textbf{closures} que m
 (los que se encierran entre corchetes) y la rica interfaz de colecciones que provee Smalltalk.
 
 ¿Cómo se modela un bloque de código? Muy fácil:
-\begin{lstlisting}[frame=single]
+\begin{code}
 factorialDe5 := [ 5 factorial ].
-\end{lstlisting}
+\end{code}
 
 Esto no ejecuta el factorial de 5, sino que crea un objeto que sabe calcularlo. Para evaluarlo efectivamente, 
 debemos pedírselo:
-\begin{lstlisting}[frame=single]
+\begin{code}
 factorialDe5 value
     120
-\end{lstlisting}
+\end{code}
 
 También podemos crear objetos bloque donde le pasemos parámetros:
-\begin{lstlisting}[frame=single]
+\begin{code}
 factorial := [ :numero | numero factorial ].
-\end{lstlisting}
+\end{code}
 
 Pero ahora ya no podemos evaluarlo con value:
-\begin{lstlisting}[frame=single]
+\begin{code}
 factorial value
-\end{lstlisting}
+\end{code}
 
 Esto nos muestra el mensaje de error:
 
@@ -551,31 +554,31 @@ Esto nos muestra el mensaje de error:
 
 Ahora si enviamos el valor, podemos calcular el factorial correspondiente:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 factorial value: 5
-\end{lstlisting}
+\end{code}
 
 Tener un objeto bloque nos permite modelar, por ejemplo, un criterio de búsqueda ad-hoc:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 misionesConRecompensaMayorA: unValor
   | criterio |
   criterio := [ :mision | mision recompensa > unValor ].
   ^misiones select: criterio 
-\end{lstlisting}
+\end{code}
 
 Esto nos permite probar:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 diego misionesConRecompensaMayorA: 2000
-\end{lstlisting}
+\end{code}
 
 El criterio es un bloque que recibe un parámetro llamado mision (que es cualquier objeto que entienda el mensaje
 recompensa) y devuelve un valor booleano. Lo podemos probar en un workspace:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 [ :mision | mision recompensa > 2000 ] value: (LiberarDoncella new recompensa: 5000)
-\end{lstlisting}
+\end{code}
 
 Cuántos objetos intervienen:
 
@@ -588,8 +591,9 @@ Tener al bloque de código como abstracción me permite separar dos momentos: cu
 que tiene que hacer, y cuando efectivamente lo ejecuta (enviándole el mensaje value, value: o value:value: en
 base a la cantidad de parámetros que tenga).
 
+\section{Más sobre colecciones}
 
-\subsection{Transformar los elementos}
+\subsection{Transformar los elementos de una colección}
 Nos piden determinar quiénes son los solicitantes de las misiones de un héroe. Lo que sabemos es que cada
 héroe tiene n misiones, y que cada misión tiene un solicitante, pero a su vez un solicitante puede pedir
 varias misiones (la relación Solicitante-Misión es n a 1, o \textit{many-to-one}).
@@ -603,18 +607,80 @@ Entonces debemos
 
 Vemos la resolución:
 
-\begin{lstlisting}[frame=single]
+\begin{code}
 solicitantes
    ^(misiones collect: [ :mision | mision solicitante ]) asSet
-\end{lstlisting}
+\end{code}
 
 Y lo probamos 
-\begin{lstlisting}[frame=single]
+
+\begin{code}
 diego solicitantes
    a Set('Mago Cacarulo' 'Old man' 'Mago de Oz')
-\end{lstlisting}
+\end{code}
 
-\subsection{e}
+\subsection{Totalizar valores de una colección}
+Un nuevo requerimiento surge: hay que conocer la recompensa que obtendremos si cumplimos todas las misiones.
+Esto implica sumar la recompensa de cada misión que esté pendiente. Tenemos varias opciones:
+\\
+\begin{itemize}
+ \item iterar la colección mediante un do:, y utilizar una variable intermedia para acumular la recompensa
+ preguntando previamente si la tarea se encuentra pendiente
+ \item transformar las misiones pendientes en una colección de recompensas y sumarlas (aquí mediante do: o 
+ bien enviando el mensaje sum. Para ver dónde está implementado pueden ubicarse en un workspace, escribir sum, 
+ botón derecho y elegir Code search... \textgreater Implementors of it, o bien ver sus usos mediante botón derecho,
+ Code search \textgreater Senders of it)
+ \item y la tercera opción es sumarizar las tareas pendientes mediante el mensaje inject:into:
+\end{itemize}
+
+Veamos la solución primero:
+
+\begin{code}
+#Heroe
+recompensaPendiente
+   ^self misionesAbiertas inject: 0 into: [ :total :mision | total + mision recompensa ]
+\end{code}
+
+Lo probamos luego en un workspace, con la opción Print It, claro está:
+
+\begin{code}
+diego recompensaPendiente
+  24500
+\end{code}
+
+El método inject:into: permite reducir la colección a la expresión deseada, es un método poderoso una vez que
+nos acostumbramos a su sintaxis. Lo que necesita es
+
+\begin{itemize}
+ \item un valor inicial a inyectarse 
+ \item un bloque de código que acepte dos argumentos y que devuelva el nuevo valor que se pasa a cada iteración siguiente
+\end{itemize}
+
+al final de la última iteración se devuelve el resultado final.
+\\
+\\
+Veamos el requerimiento que trae solicitantes con inject: into:
+
+\begin{code}
+solicitantesConInject
+   ^misiones inject: Set new into: [ :solicitantes :mision | 
+	solicitantes add: mision solicitante. 
+	solicitantes  ] 
+\end{code}
+
+TODO: Explicar
+
+Y si queremos saber cuál es la misión con más recompensa, también podemos utilizar inject:into:, basta
+con que el bloque de código vaya comparando la mayor recompensa hasta el momento con cada una de las misiones.
+El valor inicial, puede ser cualquier elemento de la colección:
+
+\begin{code}
+misionConMayorRecompensa
+   ^misiones inject: misiones anyOne into: [ :misionGanadora :mision | misionGanadora max: mision ] 
+TODO: No es asi, hay que armar un max: adhoc de recompensa que devuelva la recompensa   
+\end{code}
+
+\section{+}
 * Interfaz de las colecciones siguiendo el ejemplo
   x* Conocer el tamaño
   x* Saber si tiene elementos
@@ -623,7 +689,7 @@ diego solicitantes
   ?* Buscar un elemento
   x* Filtrar elementos que cumplan un criterio
   x* Transformar los elementos de una colección generando otra colección
-  * Totalizar valores que almacenan objetos de una colección, reducir una colección a un valores
+  x* Totalizar valores que almacenan objetos de una colección, reducir una colección a un valores
   * Operatorias con conjuntos: includes/contains, union, intersection.
   * Saber si todos/algún elemento cumple una condición
   * Bloque de código y Declaratividad
