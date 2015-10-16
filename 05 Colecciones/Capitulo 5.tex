@@ -312,6 +312,8 @@ diego tieneMisiones
 Creamos la clase Mision, con atributos solicitante, recompensa, fecha de inicio y fecha de cumplimiento. 
 Para cada uno de ellos definiremos los accessors correspondientes, haciendo botón derecho sobre la clase
 Mision > Refactoring > Inst Var Refactoring > Accessors 
+
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/10_accessors.png}
@@ -621,6 +623,7 @@ Entonces debemos
 Vemos la resolución:
 
 \begin{code}
+#Heroe
 solicitantes
    ^(misiones collect: [ :mision | mision solicitante ]) asSet
 \end{code}
@@ -632,7 +635,14 @@ diego solicitantes
    a Set('Mago Cacarulo' 'Old man' 'Mago de Oz')
 \end{code}
 
-TODO: Explicar y graficar que tampoco hay efecto...
+Tampoco collect: es un método con efecto, genera una nueva colección:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.1\textwidth]{images/21_Collect_sin_efecto.pdf}
+    \caption{El collect: tampoco afecta a la colección original}
+\end{figure}
+
 
 \subsection{Totalizar valores de una colección}
 Un nuevo requerimiento surge: hay que conocer la recompensa que obtendremos si cumplimos todas las misiones.
@@ -653,7 +663,9 @@ Veamos la solución primero:
 \begin{code}
 #Heroe
 recompensaPendiente
-   ^self misionesAbiertas inject: 0 into: [ :total :mision | total + mision recompensa ]
+   ^self misionesAbiertas 
+         inject: 0 
+	 into: [ :total :mision | total + mision recompensa ]
 \end{code}
 
 Lo probamos luego en un workspace, con la opción Print It, claro está:
@@ -677,23 +689,92 @@ al final de la última iteración se devuelve el resultado final.
 Veamos el requerimiento que trae solicitantes con inject: into:
 
 \begin{code}
+#Heroe
 solicitantesConInject
-   ^misiones inject: Set new into: [ :solicitantes :mision | 
-	solicitantes add: mision solicitante. 
-	solicitantes  ] 
+   ^misiones inject: Set new 
+             into: [ :solicitantes :mision | 
+	             solicitantes add: mision solicitante. 
+	             solicitantes  ] 
 \end{code}
 
-TODO: Explicar
+¿Qué necesitamos?
+\\
+\begin{itemize}
+ \item un Set como valor inicial
+ \item un bloque de código que vaya inyectando los solicitantes de cada misión. 
+\end{itemize}
 
-Y si queremos saber cuál es la misión con más recompensa, también podemos utilizar inject:into:, basta
-con que el bloque de código vaya comparando la mayor recompensa hasta el momento con cada una de las misiones.
-El valor inicial, puede ser cualquier elemento de la colección:
+¿Por qué en la última línea del bloque devolvemos los solicitantes? Porque si nos fijamos la implementación de
+add: en Set (escribimos add: y con alt + m buscamos la implementación de Set):
 
 \begin{code}
-misionConMayorRecompensa
-   ^misiones inject: misiones anyOne into: [ :misionGanadora :mision | misionGanadora max: mision ] 
-TODO: No es asi, hay que armar un max: adhoc de recompensa que devuelva la recompensa   
+#Set
+add: newObject
+	"Include newObject as one of the receiver's elements, but only if
+	not already present. Answer newObject."
+
+	| index |
+	index := self scanFor: newObject.
+	(array at: index) ifNil: [self atNewIndex: index put: newObject asSetElement].
+	^ newObject
 \end{code}
+
+El método add: devuelve el objeto insertado, esto no es lo que el bloque necesita...
+
+\begin{code}
+[ :solicitantes :mision | solicitantes add: mision solicitante ] 
+\end{code}
+
+produce que en la variable local solicitantes se referencie al solicitante de cada misión, no al conjunto de
+solicitantes de todas las misiones. Por eso al final de nuestro bloque devolvemos la colección temporal:
+
+\begin{code}
+          ... into: [ :solicitantes :mision | 
+	             solicitantes add: mision solicitante. 
+	             solicitantes  ] 
+\end{code}
+
+Si queremos saber cuál es la mayor recompensa también podemos utilizar inject:into:, basta
+con que el bloque de código tome el mayor valor entre la máxima recompensa hasta el momento y
+la de cada misión. El valor inicial puede ser 0:
+
+\begin{code}
+#Heroe
+mayorRecompensa
+   ^misiones inject: 0
+             into: [ :maxRecompensa :mision | maxRecompensa max: mision recompensa ] 
+\end{code}
+
+\subsection{Ordenar elementos de una colección}
+En lugar de devolver la mayor recompensa de las misiones de un héroe, vamos a devolver el objeto misión que
+ofrezca la mayor recompensa para un héroe. Podemos hacerlo mediante un inject:into: claro está, definiendo el
+método max: en Misión
+
+\begin{code}
+#Heroe
+misionConMayorRecompensa
+   ^misiones inject: misiones anyOne
+             into: [ :misionMax :mision | misionMax max: mision ] 
+             
+#Mision
+max: otraMision
+    ^recompensa > otraMision recompensa
+          ifTrue: [ self ]
+          ifFalse: [ otraMision ]
+\end{code}
+
+Pero otra opción consiste en ordenar las misiones por recompensa, y tomar el primer elemento:
+
+\begin{code}
+misionConMayorRecompensaSort
+   ^(misiones asSortedCollection: [ :mision1 :mision2 | mision1 recompensa > mision2 recompensa ])
+       first
+\end{code}
+
+El mensaje \textbf{asSortedCollection:} genera una nueva colección en base al criterio de ordenamiento, definido
+por un bloque que define, dado dos elementos, cuál va primero y cuál segundo. 
+
+
 
 \section{+}
 * Interfaz de las colecciones siguiendo el ejemplo
@@ -707,7 +788,7 @@ TODO: No es asi, hay que armar un max: adhoc de recompensa que devuelva la recom
   x* Totalizar valores que almacenan objetos de una colección, reducir una colección a un valores
   * Operatorias con conjuntos: includes/contains, union, intersection.
   * Saber si todos/algún elemento cumple una condición
-  * Bloque de código y Declaratividad
+  x* Bloque de código y Declaratividad
 * Iteradores externos e internos
 * Tipos de colecciones. Estáticas vs. dinámicas. Ordenadas y sin ordenar. Con índices.
   Colecciones estáticas (Ejemplos de cada una de ellas. Formas de agregar elementos.)

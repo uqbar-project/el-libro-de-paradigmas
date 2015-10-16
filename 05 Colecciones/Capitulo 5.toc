@@ -17,4 +17,5 @@
 \contentsline {section}{\numberline {1.6}M\IeC {\'a}s sobre colecciones}{19}{section.1.6}
 \contentsline {subsection}{\numberline {1.6.1}Transformar los elementos de una colecci\IeC {\'o}n}{19}{subsection.1.6.1}
 \contentsline {subsection}{\numberline {1.6.2}Totalizar valores de una colecci\IeC {\'o}n}{20}{subsection.1.6.2}
-\contentsline {section}{\numberline {1.7}+}{21}{section.1.7}
+\contentsline {subsection}{\numberline {1.6.3}Ordenar elementos de una colecci\IeC {\'o}n}{22}{subsection.1.6.3}
+\contentsline {section}{\numberline {1.7}+}{23}{section.1.7}
