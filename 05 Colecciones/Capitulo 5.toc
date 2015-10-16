@@ -13,7 +13,8 @@
 \contentsline {subsection}{\numberline {1.3.6}Nuevas misiones para el h\IeC {\'e}roe}{14}{subsection.1.3.6}
 \contentsline {subsection}{\numberline {1.3.7}Filtrar elementos de una colecci\IeC {\'o}n}{15}{subsection.1.3.7}
 \contentsline {section}{\numberline {1.4}Objetos bloque y declaratividad}{16}{section.1.4}
-\contentsline {section}{\numberline {1.5}M\IeC {\'a}s sobre colecciones}{18}{section.1.5}
-\contentsline {subsection}{\numberline {1.5.1}Transformar los elementos de una colecci\IeC {\'o}n}{18}{subsection.1.5.1}
-\contentsline {subsection}{\numberline {1.5.2}Totalizar valores de una colecci\IeC {\'o}n}{19}{subsection.1.5.2}
-\contentsline {section}{\numberline {1.6}+}{20}{section.1.6}
+\contentsline {section}{\numberline {1.5}Operaciones con y sin efecto}{19}{section.1.5}
+\contentsline {section}{\numberline {1.6}M\IeC {\'a}s sobre colecciones}{19}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}Transformar los elementos de una colecci\IeC {\'o}n}{19}{subsection.1.6.1}
+\contentsline {subsection}{\numberline {1.6.2}Totalizar valores de una colecci\IeC {\'o}n}{20}{subsection.1.6.2}
+\contentsline {section}{\numberline {1.7}+}{21}{section.1.7}
