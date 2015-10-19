@@ -167,3 +167,19 @@ identifierstyle=\idstyle,
 {\begin{alltt}\ttfamily}
 {\end{alltt}\normalsize}
 
+% Para insertar boxes
+\usepackage[framemethod=TikZ]{mdframed}
+\mdfdefinestyle{BoxFrame}{%
+    linecolor=black,
+    outerlinewidth=1pt,
+    roundcorner=20pt,
+    innertopmargin=\baselineskip,
+    innerbottommargin=\baselineskip,
+    innerrightmargin=20pt,
+    innerleftmargin=20pt,
+    backgroundcolor=gray!30!white}
+
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\cdot$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\ast$}

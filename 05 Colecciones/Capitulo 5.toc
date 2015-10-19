@@ -16,12 +16,23 @@
 \contentsline {section}{\numberline {1.5}Operaciones con y sin efecto}{19}{section.1.5}
 \contentsline {section}{\numberline {1.6}M\IeC {\'a}s sobre colecciones}{19}{section.1.6}
 \contentsline {subsection}{\numberline {1.6.1}Transformar los elementos de una colecci\IeC {\'o}n}{19}{subsection.1.6.1}
-\contentsline {subsection}{\numberline {1.6.2}Totalizar valores de una colecci\IeC {\'o}n}{20}{subsection.1.6.2}
-\contentsline {subsection}{\numberline {1.6.3}Ordenar elementos de una colecci\IeC {\'o}n}{22}{subsection.1.6.3}
+\contentsline {subsection}{\numberline {1.6.2}Encontrar un elemento que satisfaga una condici\IeC {\'o}n}{20}{subsection.1.6.2}
+\contentsline {subsection}{\numberline {1.6.3}Totalizar valores de una colecci\IeC {\'o}n}{20}{subsection.1.6.3}
+\contentsline {subsection}{\numberline {1.6.4}Ordenar elementos de una colecci\IeC {\'o}n}{23}{subsection.1.6.4}
 \contentsline {section}{\numberline {1.7}Operatorias con conjuntos}{23}{section.1.7}
-\contentsline {subsection}{\numberline {1.7.1}Elemento contenido en un conjunto}{23}{subsection.1.7.1}
+\contentsline {subsection}{\numberline {1.7.1}Elemento contenido en un conjunto}{24}{subsection.1.7.1}
 \contentsline {subsection}{\numberline {1.7.2}Saber si alguno de los elementos cumple una condici\IeC {\'o}n}{24}{subsection.1.7.2}
-\contentsline {subsection}{\numberline {1.7.3}Uni\IeC {\'o}n de conjuntos}{24}{subsection.1.7.3}
+\contentsline {subsection}{\numberline {1.7.3}Uni\IeC {\'o}n de conjuntos}{25}{subsection.1.7.3}
 \contentsline {subsection}{\numberline {1.7.4}Intersecci\IeC {\'o}n de conjuntos}{25}{subsection.1.7.4}
-\contentsline {subsection}{\numberline {1.7.5}Para investigar...}{26}{subsection.1.7.5}
-\contentsline {section}{\numberline {1.8}BIBLIOGRAFIA}{26}{section.1.8}
+\contentsline {subsection}{\numberline {1.7.5}Diferencia de conjuntos}{26}{subsection.1.7.5}
+\contentsline {subsection}{\numberline {1.7.6}Diferencia sim\IeC {\'e}trica entre conjuntos}{27}{subsection.1.7.6}
+\contentsline {section}{\numberline {1.8}Tipos de Colecciones}{27}{section.1.8}
+\contentsline {subsection}{\numberline {1.8.1}Bag}{28}{subsection.1.8.1}
+\contentsline {subsection}{\numberline {1.8.2}Set}{28}{subsection.1.8.2}
+\contentsline {subsection}{\numberline {1.8.3}Dictionary}{29}{subsection.1.8.3}
+\contentsline {subsection}{\numberline {1.8.4}OrderedCollection}{30}{subsection.1.8.4}
+\contentsline {subsection}{\numberline {1.8.5}SortedCollection}{30}{subsection.1.8.5}
+\contentsline {subsection}{\numberline {1.8.6}Colecciones est\IeC {\'a}ticas}{31}{subsection.1.8.6}
+\contentsline {section}{\numberline {1.9}Iteradores externos e internos}{31}{section.1.9}
+\contentsline {section}{\numberline {1.10}Resumen}{33}{section.1.10}
+\contentsline {section}{\numberline {1.11}Bibliograf\IeC {\'\i }a}{33}{section.1.11}

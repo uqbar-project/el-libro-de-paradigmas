@@ -8,7 +8,8 @@
 \usepackage{geometry}
 \usepackage[sc]{mathpazo}
 
-\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amssymb}
 
 \usepackage[usenames,dvipsnames]{color} 
 \usepackage{hyperref}
@@ -41,12 +42,14 @@
 \begin{document}
 
 \chapter{Colecciones}
+por Fernando Dodino
+\\
+\\
 Las colecciones son un concepto importante y poderoso al diseñar con objetos. En este capítulo veremos cómo
 se modela el conocimiento de un conjunto de referencias de un objeto y su utilización para resolver un problema
 concreto.
 \\
 \\
- \hfill Fernando Dodino
 
 \tableofcontents
 
@@ -643,6 +646,16 @@ Tampoco collect: es un método con efecto, genera una nueva colección:
     \caption{El collect: tampoco afecta a la colección original}
 \end{figure}
 
+\subsection{Encontrar un elemento que satisfaga una condición}
+Si queremos encontrar la primera misión de un héroe cuya recompensa sea mayor a 500, 
+podemos utilizar el mensaje detect:
+
+\begin{code}
+#Heroe
+misionConBuenaRecompensa
+    ^misiones detect: [ :mision | mision recompensa > 500 ]
+\end{code}
+
 
 \subsection{Totalizar valores de una colección}
 Un nuevo requerimiento surge: hay que conocer la recompensa que obtendremos si cumplimos todas las misiones.
@@ -797,6 +810,11 @@ Ya hemos visto los mensajes isEmpty, notEmpty que permiten determinar si un elem
 Ahora veremos algunos ejemplos breves de lógica de conjuntos.
 
 \subsection{Elemento contenido en un conjunto}
+
+\begin{mdframed}[style=BoxFrame]
+\( x \in X \)
+\end{mdframed}
+ 
 Una forma de determinar si un héroe debe cumplir la misión de un solicitante determinado puede ser:
 
 \begin{code}
@@ -813,6 +831,11 @@ diego debeCumplirMisionPara: 'Mago de Oz'
 \end{code}
 
 \subsection{Saber si alguno de los elementos cumple una condición}
+
+\begin{mdframed}[style=BoxFrame]
+\( \exists x \in X, p(x) \)
+\end{mdframed}
+
 Llega un nuevo requerimiento: saber si hay alguna misión difícil. Esto puede hacerse de varias maneras
 
 \begin{itemize}
@@ -842,11 +865,16 @@ diego tieneAlgunaMisionDificil
 Para preguntar por todas utilizamos el mensaje allSatisfy:
 
 \begin{code}
-diego misionesAbiertas allSatisfy: [ :mision | mision recompensa > 500 ]
+diego misionesAbiertas 
+    allSatisfy: [ :mision | mision recompensa > 500 ]
     false
 \end{code}
 
 \subsection{Unión de conjuntos}
+
+\begin{mdframed}[style=BoxFrame]
+\( A \cup B \)
+\end{mdframed}
 
 Si un héroe puede tener amigos (referencias a otros héroes), y de cada amistad uno tiene una recompensa, que 
 puede calcularse de una manera \textit{x}, no importa cómo, podríamos querer sumar las recompensas de las misiones
@@ -855,8 +883,9 @@ cumplidas y de las amistades en un método como
 \begin{code}
 #Heroe
 recompensaTotal
-   ^self cosasQueMeRecompensan inject: 0
-                               into: [ :total :cosa | total + cosa recompensa ]
+   ^self cosasQueMeRecompensan 
+            inject: 0
+            into: [ :total :cosa | total + cosa recompensa ]
 \end{code}
 
 Para ``sumar'' misiones y amigos podemos apelar a una de estas dos estrategias:
@@ -877,8 +906,13 @@ cosasQueMeRecompensan
 \end{code}
 
 \subsection{Intersección de conjuntos}
+
+\begin{mdframed}[style=BoxFrame]
+\( A \cap B \)
+\end{mdframed}
+
 Algunos magos no confían en los héroes, por eso encargan la misma misión a diferentes personajes. Para determinar
-si hay conflicto de intereses podemos intentar este método
+si hay conflicto de intereses podemos definir este método
 
 \begin{code}
 #Heroe
@@ -899,40 +933,360 @@ para eso enviamos el mensaje anyOne, que nos devuelve cualquier elemento de la c
 
 La última línea la imprimimos y vemos que aparece un Set con alguna de las misiones de Diego.
 
-\subsection{Para investigar...}
-Hay otros mensajes interesantes para investigar con nuevos requerimientos: difference:, symmetricDifference:
+\subsection{Diferencia de conjuntos}
 
-* Interfaz de las colecciones siguiendo el ejemplo
-  x* Conocer el tamaño
-  x* Saber si tiene elementos
-  x* Agregar un elemento
-  ?* Sacar un elemento
-  ?* Buscar un elemento
-  x* Filtrar elementos que cumplan un criterio
-  x* Transformar los elementos de una colección generando otra colección
-  x* Totalizar valores que almacenan objetos de una colección, reducir una colección a un valores
-  * Operatorias con conjuntos: includes/contains, union, intersection.
-  x* Saber si todos/algún elemento cumple una condición
-  x* Bloque de código y Declaratividad
-* Iteradores externos e internos
-* Tipos de colecciones. Estáticas vs. dinámicas. Ordenadas y sin ordenar. Con índices.
-  Colecciones estáticas (Ejemplos de cada una de ellas. Formas de agregar elementos.)
-  * Array
-  * String
-  * Interval
+\begin{mdframed}[style=BoxFrame]
+\( A \setminus B \)
+\end{mdframed}
+
+Ricardo tiene una nueva misión:
+
+\begin{code}
+#Workspace
+ ricardo agregarMision: (BuscarItemMagico new 
+			distanciaMontania: 800;
+			solicitante: 'Mago Capria';
+			recompensa: 1200;
+			fechaInicio: (Date yesterday);
+			yourself).
+\end{code}
+
+¿Cómo sabemos qué misiones tiene exclusivamente ricardo y no diego?
+
+\begin{code}
+#Heroe
+misionesExclusivasQueNoTiene: otroHeroe
+    ^misiones difference: otroHeroe misiones
+\end{code}
+
+Lo probamos
+
+\begin{code}
+#Workspace
+ricardo misionesExclusivasQueNoTiene: diego
+\end{code}
+
+\subsection{Diferencia simétrica entre conjuntos}
+En otras versiones de Smalltalk teníamos un método symmetricDifference:, en versiones recientes de Pharo
+no aparece, pero podemos construirlo en base a la definición matemática 
+
+\begin{mdframed}[style=BoxFrame]
+\( A \bigtriangleup B = (A \setminus B) \cup (B \setminus A) \) 
+\end{mdframed}
+
+Podemos crear un método symmetricDifference: en Collection:
+
+\begin{code}
+#Collection
+symmetricDifference: aCollection
+	^ (self difference: aCollection) 
+	     union: (aCollection difference: self)
+\end{code}
+
+y lo probamos
+
+\begin{code}
+#('Banana' 'Manzana' 'Pera') 
+      symmetricDifference: #('Manzana' 'Kiwi' 'Melon')
+      #('Pera' 'Banana' 'Kiwi' 'Melon')
+\end{code}
+
+\section{Tipos de Colecciones}
+Hasta el momento hemos trabajado con el Set, lo que nos permite tener una colección
+
+\begin{itemize}
+ \item sin duplicados
+ \item en donde no tenemos un orden
+\end{itemize}
+
+Es coherente que pedirle el segundo elemento del conjunto de misiones de diego resulte en error:
+
+\begin{code}
+diego misiones at: 2
+  'Error: Instances of Set are not indexable'
+\end{code}
+
+De todas maneras, en Smalltalk tenemos una gran variedad de ``sabores'' en cuanto a colecciones, en base a
+
+\begin{itemize}
+ \item si la colección admite o no duplicados
+ \item si la cantidad de elementos es fija o variable
+ \item si los elementos están ordenados
+ \item la forma de acceder a los elementos es secuencial o por un índice
+\end{itemize}
+
+entre otras posibilidades. A continuación estudiaremos los diferentes tipos de colecciones \textbf{dinámicas}, que
+suelen agregar nuevos elementos mediante el mensaje add: y eliminarlos mediante el mensaje remove:.
+
+\subsection{Bag}
+
+Representa una bolsa, o valija, donde guardamos ``cosas''. Como toda valija, las cosas están desordenadas: 
+encontrar algo puede llevar tiempo. Sirve para representar un conjunto donde los elementos pueden 
+repetirse. La cantidad de elementos es variable. Un ejemplo posible puede ser un carrito de compras 
+de un supermercado. 
+
+\subsection{Set}
+
+Es el conjunto matemático, y respeta la definición de que no hay elementos repetidos, ni orden. Pero mientras
+el conjunto matemático es fijo, el Set de Smalltalk permite agregar o eliminar dinámicamente elementos. 
+Un dato importante es que la forma de asegurar que los elementos no se repiten está basado en dos mensajes:
+\textbf{=} (la igualdad que se puede redefinir) y \textbf{hash} (un número que se asocia a cada objeto).
+\\
+\\
+Si queremos entender cómo funciona un Set, hagamos la siguiente prueba:
+
+\begin{code}
+#Workspace
+numeros := Set new.
+numeros add: 2.
+numeros add: 3.
+numeros add: 2.
+numeros size
+\end{code}
+
+La respuesta es claramente 2, porque el add: no tiene efecto si queremos insertar un elemento existente.
+Debemos entonces tener cuidado con la definición del = y el hash respecto a los elementos que insertemos.
+\textit{Ejemplo}: supongamos que el héroe tiene un nombre con sus accessors, e incorporamos estos métodos
+
+\begin{code}
+#Heroe
+= otroHeroe
+    ^nombre = otroHeroe nombre
+    
+hash
+    ^nombre hash
+\end{code}
+
+Es importante que cada vez que redefinamos el método = también hagamos lo propio con el método hash.
+Entonces generamos nuestro Set de héroes:
+
+\begin{code}
+#Heroe
+heroes := Set new.
+heroes add: (Heroe new nombre: 'Hercules').
+heroes add: (Heroe new nombre: 'Superman').
+heroes add: (Heroe new nombre: 'Hercules').
+heroes size
+\end{code}
+
+La respuesta es claramente \textbf{2}. Si borramos las definiciones de = y hash y volvemos a evaluar 
+el código de arriba, ahora vemos que la respuesta es \textbf{3}. Es importante tener esto en cuenta cuando
+vayamos a utilizar un Set para modelar una colección.
+
+
+\subsection{Dictionary}
+
+Mientras que Bag y Set no tienen una forma de acceder a un cierto elemento, el Dictionary permite generar un
+mapa de valores accesibles mediante una clave, lo que resulta en un conjunto de pares clave-valor. El ejemplo
+típico de este tipo de colecciones es la agenda de contactos, y son muy útiles cuando necesitamos
+encontrar los elementos en forma rápida. Dado que las claves no pueden repetirse, Dictionary hereda
+comportamiento de Set. 
+\\
+\\
+En lugar de utilizar el mensaje add:, agregamos los elementos mediante el mensaje at:put:, y los accedemos
+mediante el mensaje at:.
+
+\begin{code}
+#Workspace
+agenda := Dictionary new.
+agenda at: 'diegote' put: diego.
+agenda at: 'bocha' put: ricardo.
+agenda at: 'diegote'
+\end{code}
+
+Para iterar un Dictionary tenemos tres opciones
+
+\begin{itemize}
+ \item iterando sus claves => keysDo:
+ \item iterando sus valores => valuesDo:
+ \item iterando claves y valores a la vez, a partir de un objeto Association => 
+ keysAndValuesDo:
+\end{itemize}
+
+De todas maneras, si necesitamos trabajar con todos los elementos de un Dictionary preferiremos utilizar
+los mensajes collect:, select:, detect:, inject:into:, etc.
+
+\subsection{OrderedCollection}
+
+Es una lista que respeta el mismo orden en que se insertaron los elementos. Se representa como una lista
+doblemente enlazada, la forma ``natural'' de acceder a los elementos es por índice numérico: el primero, 
+el tercero, el sexto, e incluso el último. La lista es dinámica y admite elementos duplicados. 
+
+\subsection{SortedCollection}
+
+Es una colección en donde los elementos están ordenados por un criterio, llamado sortBlock. Cada vez que
+insertamos un elemento en la colección lo hacemos respetando el orden que debe tener, por lo que tienen
+una pobre performance para actualizaciones masivas. Por eso, la estrategia suele ser tener un Set, Bag,
+OrderedCollection para almacenar una lista de elementos y convertirla a SortedCollection con un criterio
+determinado cuando tenemos que sacar informes de
+
+\begin{itemize}
+ \item los héroes que más misiones cumplieron
+ \item los héroes ordenados alfabéticamente
+ \item las misiones ordenadas por recompensa
+\end{itemize}
+etc. 
+
+Esto lo hacemos enviando el mensaje asSortedCollection:
+
+\begin{code}
+#Workspace
+diego misionesAbiertas asSortedCollection: 
+    [ :mision1 :mision2 | mision1 recompensa > mision2 recompensa ]
+\end{code}
+
+El lector puede probar lo siguiente:
+
+\begin{code}
+#Workspace
+liberarFiona := LiberarDoncella new recompensa: 200.
+buscarAnilloMagico := BuscarItemMagico new recompensa: 500.
+[ :a :b | a recompensa > b recompensa ] 
+     value: liberarFiona value: buscarAnilloMagico
+\end{code}
+
+¿Qué devuelve? Un valor booleano, que es el que utiliza el método asSortedCollection: para definir el criterio
+de ordenamiento de los elementos. 
+
+\subsection{Colecciones estáticas}
+
+No siempre es necesario trabajar con un conjunto dinámico de elementos. Dejar abierta esa posibilidad cuesta
+espacio o tiempo, entonces podemos trabajar con una cantidad fija de elementos.
+
+El \textbf{Array}, también conocido como vector, trabaja con elementos que se acceden por índice posicional
+numérico.
+
+\begin{code}
+#Workspace
+diasDeLaSemana := Array new: 7.
+diasDeLaSemana at: 1 put: 'Lunes'.
+diasDeLaSemana at: 1
+\end{code}
+
+En general, las colecciones estáticas reemplazan el mensaje add: por algún otro mecanismo de actualización.
+En el caso del Array, accedemos a los elementos mediante un mensaje at: y los actualizamos a partir del mensaje
+at:put:, como vemos en el código de arriba.
+
+Otra variante es el \textbf{String}, que es un objeto \textit{inmutable}, se construye mediante un literal 
+(las comillas simples) y una vez generado no se modifica, sino que se van generando nuevos Strings a partir
+de los strings originales.
+
+\begin{code}
+nombre := 'Laura'.
+nombre := nombre , ' Iturbe'
+\end{code}
+
+Aquí la referencia a nombre se cambia del primer objeto (el String 'Laura') al segundo que es el que resulta
+de la concatenación de 'Laura' con ' Iturbe'.
+\\
+\\
+Por último el objeto \textbf{Interval} permite modelar un rango de valores numérico.
+
+\begin{code}
+(1 to: 5) ...
+\end{code}
+
+TODO: Arbol de decisión para elegir colecciones
+
+\section{Iteradores externos e internos}
+
+Sabemos que para recorrer una colección basta con enviar el mensaje do: 
+
+\begin{code}
+coleccion do: [ :elemento | ... ]
+\end{code}
+
+Esto se asemeja a la estructura \textit{for each} de varios lenguajes, como Python
+
+\begin{lstlisting}[language=Python]  
+for elemento in coleccion:
+  sentencias
+\end{lstlisting}
+
+o Java 8 / 7
+\begin{lstlisting}[language=Java]  
+coleccion.forEach((elemento) ->
+  elemento.mensaje());
   
-  Colecciones dinámicas
-  * Bag?
-  * Set
-  * List/Ordered Collection
-  * SortedCollection
-  * Map/Dictionary
-  * Comparativa general
+for (Elemento elemento : coleccion) {
+  elemento.mensaje();
+}
+\end{lstlisting}
 
+Esto es lo que se conoce como un ``iterador interno''. Otra opción es separar dos abstracciones:
 
-\section{BIBLIOGRAFIA}
+\begin{itemize}
+ \item la que define cómo se almacenan los elementos
+ \item y la forma en que se recorre la colección
+\end{itemize}
 
-Victoria Pocladova, Carlos Lombardi, Leonardo Volinier y Jorge Silva, \textit{Colecciones en Smalltalk}, 
+esto se conoce como ``iterador externo'', y es uno de los patrones de Diseño expresados por Gamma et al.{\footnote{
+Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, \textit{Design Patterns, Elements of reusable 
+object-oriented software}, Addison-Wesley}
+\\
+\\
+Esta idea está presente cuando utilizamos un Set y luego enviamos el mensaje asSortedCollection: para recorrer
+la lista en un orden diferente al que están almacenados. 
+\\
+\\
+Otro ejemplo posible de Iterador externo sería organizar una contienda entre dos héroes. La contienda comienza
+con un ataque de uno de los héroes por turno y termina cuando alguno de los dos héroes queda moribundo
+(un nivel de vida a determinar). Entonces podemos pensar en que la contienda necesita una abstracción que
+maneje el turno de ataque de cada héroe:
+
+\begin{itemize}
+ \item el iterador necesita conocer a ambos héroes
+ \item habrá siguiente turno si ninguno de los héroes queda moribundo
+ \item y el turno se va alternando entre el primer y el segundo héroe
+\end{itemize}
+
+La implementación la vemos aquí:
+
+\begin{code}
+#TurnoContienda, VI: heroes indice
+
+initialize
+   indice := 0.
+   heroes := OrderedCollection new.
+   
+hayProximoTurno
+   ^heroes allSatisfy: [ :heroe | heroe estaMoribundo not ]
+   
+siguiente
+   self hayProximoTurno ifFalse: [ self error: 'La contienda ha terminado' ].
+   indice := indice + 1.
+   (indice > heroes size) ifTrue: [ indice := 1 ].
+   ^heroes at: indice
+\end{code}
+
+Si lo probamos en un playground veremos cómo se genera el turno de cada héroe:
+
+\begin{code}
+#Workspace
+diego nombre: 'Diego'.
+ricardo nombre: 'Bocha'.
+
+turno := TurnoContienda new 
+   agregarHeroe: diego;
+   agregarHeroe: ricardo.
+
+turno siguiente nombre => 'Diego'
+turno siguiente nombre => 'Bocha'
+turno siguiente nombre => 'Diego'
+turno siguiente nombre => 'Bocha'
+turno siguiente nombre => 'Diego'
+\end{code}
+
+\section{Resumen}
+Las colecciones son un concepto fundamental en el diseño orientado a objetos para modelar un conjunto
+de elementos que están relacionados. A través del capítulo hemos visto la enorme cantidad de mensajes 
+que podemos enviarle, así como las diferentes opciones que conforman la jerarquía general de Collection.
+
+\section{Bibliografía}
+
+\textit{Smalltalk-80, The Language}, Adele Goldberg, David Robson, Addison-Wesley
+
+\textit{Colecciones en Smalltalk}, de Victoria Pocladova, Carlos Lombardi, Leonardo Volinier y Jorge Silva, 
  del sitio web \\
 \begin{minipage}[t]{0.5\textwidth}
      \href{http://pdep.com.ar/material/apuntes}{{\color{blue}http://pdep.com.ar/material/apuntes}}

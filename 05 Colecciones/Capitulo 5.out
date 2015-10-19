@@ -15,12 +15,23 @@
 \BOOKMARK [1][-]{section.1.5}{Operaciones con y sin efecto}{chapter.1}% 15
 \BOOKMARK [1][-]{section.1.6}{M\341s sobre colecciones}{chapter.1}% 16
 \BOOKMARK [2][-]{subsection.1.6.1}{Transformar los elementos de una colecci\363n}{section.1.6}% 17
-\BOOKMARK [2][-]{subsection.1.6.2}{Totalizar valores de una colecci\363n}{section.1.6}% 18
-\BOOKMARK [2][-]{subsection.1.6.3}{Ordenar elementos de una colecci\363n}{section.1.6}% 19
-\BOOKMARK [1][-]{section.1.7}{Operatorias con conjuntos}{chapter.1}% 20
-\BOOKMARK [2][-]{subsection.1.7.1}{Elemento contenido en un conjunto}{section.1.7}% 21
-\BOOKMARK [2][-]{subsection.1.7.2}{Saber si alguno de los elementos cumple una condici\363n}{section.1.7}% 22
-\BOOKMARK [2][-]{subsection.1.7.3}{Uni\363n de conjuntos}{section.1.7}% 23
-\BOOKMARK [2][-]{subsection.1.7.4}{Intersecci\363n de conjuntos}{section.1.7}% 24
-\BOOKMARK [2][-]{subsection.1.7.5}{Para investigar...}{section.1.7}% 25
-\BOOKMARK [1][-]{section.1.8}{BIBLIOGRAFIA}{chapter.1}% 26
+\BOOKMARK [2][-]{subsection.1.6.2}{Encontrar un elemento que satisfaga una condici\363n}{section.1.6}% 18
+\BOOKMARK [2][-]{subsection.1.6.3}{Totalizar valores de una colecci\363n}{section.1.6}% 19
+\BOOKMARK [2][-]{subsection.1.6.4}{Ordenar elementos de una colecci\363n}{section.1.6}% 20
+\BOOKMARK [1][-]{section.1.7}{Operatorias con conjuntos}{chapter.1}% 21
+\BOOKMARK [2][-]{subsection.1.7.1}{Elemento contenido en un conjunto}{section.1.7}% 22
+\BOOKMARK [2][-]{subsection.1.7.2}{Saber si alguno de los elementos cumple una condici\363n}{section.1.7}% 23
+\BOOKMARK [2][-]{subsection.1.7.3}{Uni\363n de conjuntos}{section.1.7}% 24
+\BOOKMARK [2][-]{subsection.1.7.4}{Intersecci\363n de conjuntos}{section.1.7}% 25
+\BOOKMARK [2][-]{subsection.1.7.5}{Diferencia de conjuntos}{section.1.7}% 26
+\BOOKMARK [2][-]{subsection.1.7.6}{Diferencia sim\351trica entre conjuntos}{section.1.7}% 27
+\BOOKMARK [1][-]{section.1.8}{Tipos de Colecciones}{chapter.1}% 28
+\BOOKMARK [2][-]{subsection.1.8.1}{Bag}{section.1.8}% 29
+\BOOKMARK [2][-]{subsection.1.8.2}{Set}{section.1.8}% 30
+\BOOKMARK [2][-]{subsection.1.8.3}{Dictionary}{section.1.8}% 31
+\BOOKMARK [2][-]{subsection.1.8.4}{OrderedCollection}{section.1.8}% 32
+\BOOKMARK [2][-]{subsection.1.8.5}{SortedCollection}{section.1.8}% 33
+\BOOKMARK [2][-]{subsection.1.8.6}{Colecciones est\341ticas}{section.1.8}% 34
+\BOOKMARK [1][-]{section.1.9}{Iteradores externos e internos}{chapter.1}% 35
+\BOOKMARK [1][-]{section.1.10}{Resumen}{chapter.1}% 36
+\BOOKMARK [1][-]{section.1.11}{Bibliograf\355a}{chapter.1}% 37
