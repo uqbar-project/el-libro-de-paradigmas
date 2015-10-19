@@ -363,7 +363,7 @@ Claro, pero además debemos dejar que la misión delegue el comportamiento en ca
 \begin{code}
 #Mision
 esDificil
-	^(self estaIniciadaHace: 60) && (self realmenteEsDificil)
+	^(self estaIniciadaHace: 60) & (self realmenteEsDificil)
 \end{code}
 
 Antes de resolver el método realmenteEsDificil, dejamos una posible implementación de estaIniciadaHace:
@@ -371,7 +371,7 @@ Antes de resolver el método realmenteEsDificil, dejamos una posible implementac
 \begin{code}
 #Mision
 estaIniciadaHace: xDias
-      ^(self estaAbierta) && ((Date new subtractDate: fechaInicio) > xDias)
+      ^(self estaAbierta) & ((Date new subtractDate: fechaInicio) > xDias)
       
 estaAbierta
       ^fechaCumplimiento isNil       
@@ -745,6 +745,14 @@ mayorRecompensa
              into: [ :maxRecompensa :mision | maxRecompensa max: mision recompensa ] 
 \end{code}
 
+Incluso la longitud de una colección puede calcularse con un inject: into: ...
+
+\begin{code}
+lista inject: 0
+      into: [ :total :elemento | total + 1 ] 
+\end{code}
+
+
 \subsection{Ordenar elementos de una colección}
 En lugar de devolver la mayor recompensa de las misiones de un héroe, vamos a devolver el objeto misión que
 ofrezca la mayor recompensa para un héroe. Podemos hacerlo mediante un inject:into: claro está, definiendo el
@@ -772,11 +780,128 @@ misionConMayorRecompensaSort
 \end{code}
 
 El mensaje \textbf{asSortedCollection:} genera una nueva colección en base al criterio de ordenamiento, definido
-por un bloque que define, dado dos elementos, cuál va primero y cuál segundo. 
+por un bloque que dice, dado dos elementos, cuál va primero y cuál segundo. Para ordenar alfabéticamente
+de menor a mayor una lista de verduras representadas como strings, escribimos en un workspace: 
 
+\begin{code}
+#('Rucula' 'Tomate' 'Lechuga' 'Apio') asSortedCollection: [ :a :b | a < b ]
+    a SortedCollection('Apio' 'Lechuga' 'Rucula' 'Tomate')
+\end{code}
 
+Más adelante veremos el tipo de colección generada, que recordamos \textbf{no afecta} la colección original.
 
-\section{+}
+\section{Operatorias con conjuntos}
+
+Como dijimos anteriormente, las colecciones son una implementación posible del concepto matemático de conjunto.
+Ya hemos visto los mensajes isEmpty, notEmpty que permiten determinar si un elemento está o no en una colección.
+Ahora veremos algunos ejemplos breves de lógica de conjuntos.
+
+\subsection{Elemento contenido en un conjunto}
+Una forma de determinar si un héroe debe cumplir la misión de un solicitante determinado puede ser:
+
+\begin{code}
+#Heroe
+debeCumplirMisionPara: unSolicitante
+    ^self solicitantes includes: unSolicitante
+\end{code}
+
+Entonces sabemos que
+
+\begin{code}
+diego debeCumplirMisionPara: 'Mago de Oz'
+    true
+\end{code}
+
+\subsection{Saber si alguno de los elementos cumple una condición}
+Llega un nuevo requerimiento: saber si hay alguna misión difícil. Esto puede hacerse de varias maneras
+
+\begin{itemize}
+ \item Iterando la colección con un do: y preguntando si la misión actual es difícil. En ese caso debemos
+ cortar la secuencia y devolver true. Si almacenamos el resultado en una variable temporal podemos olvidarnos
+ de hacer el corte de la iteración, algo que sucede típicamente cuando nuestra solución está muy atada al algoritmo
+ \item Otra opción puede ser \begin{code}heroe misionesDificiles notEmpty\end{code}, lo que requiere generar
+ un método misionesDificiles
+ \item La tercera opción es la que vamos a elegir, donde sólo vamos a especificar qué condición debe cumplir alguno
+ de los elementos...
+\end{itemize}
+
+Y lo resolvemos de esta manera:
+
+\begin{code}
+tieneAlgunaMisionDificil
+      ^misiones anySatisfy: [ :mision | mision esDificil ] 
+\end{code}
+
+Lo probamos
+
+\begin{code}
+diego tieneAlgunaMisionDificil
+    false
+\end{code}
+
+Para preguntar por todas utilizamos el mensaje allSatisfy:
+
+\begin{code}
+diego misionesAbiertas allSatisfy: [ :mision | mision recompensa > 500 ]
+    false
+\end{code}
+
+\subsection{Unión de conjuntos}
+
+Si un héroe puede tener amigos (referencias a otros héroes), y de cada amistad uno tiene una recompensa, que 
+puede calcularse de una manera \textit{x}, no importa cómo, podríamos querer sumar las recompensas de las misiones
+cumplidas y de las amistades en un método como
+
+\begin{code}
+#Heroe
+recompensaTotal
+   ^self cosasQueMeRecompensan inject: 0
+                               into: [ :total :cosa | total + cosa recompensa ]
+\end{code}
+
+Para ``sumar'' misiones y amigos podemos apelar a una de estas dos estrategias:
+
+\begin{itemize}
+ \item tenerlos en una variable de instancia juntos, lo cual posiblemente sería incómodo para trabajar
+ por separado las misiones y los amigos
+ \item tenerlos en referencias separadas (dos variables de instancia), pero generar un método que devuelva
+ la resultante de la unión de ambos conjuntos
+\end{itemize}
+
+Vemos el segundo caso:
+
+\begin{code}
+#Heroe
+cosasQueMeRecompensan
+    ^self misionesCumplidas union: amigos
+\end{code}
+
+\subsection{Intersección de conjuntos}
+Algunos magos no confían en los héroes, por eso encargan la misma misión a diferentes personajes. Para determinar
+si hay conflicto de intereses podemos intentar este método
+
+\begin{code}
+#Heroe
+misionesConConflictosDeInteresesCon: otroHeroe
+     ^otroHeroe misiones intersection: self misiones
+\end{code}
+
+Debemos crear el accessor ``misiones'' para la variable misiones en Héroe, solamente necesitamos el getter. 
+Ahora sí, lo probamos: generamos a nuestro nuevo héroe Ricardo, y le pasamos una misión de Diego, 
+para eso enviamos el mensaje anyOne, que nos devuelve cualquier elemento de la colección:
+
+\begin{code}
+#Workspace
+ misionCualquiera := diego misionesAbiertas anyOne.
+ ricardo := Heroe new agregarMision: misionCualquiera.
+ diego misionesConConflictosDeInteresesCon: ricardo
+\end{code}
+
+La última línea la imprimimos y vemos que aparece un Set con alguna de las misiones de Diego.
+
+\subsection{Para investigar...}
+Hay otros mensajes interesantes para investigar con nuevos requerimientos: difference:, symmetricDifference:
+
 * Interfaz de las colecciones siguiendo el ejemplo
   x* Conocer el tamaño
   x* Saber si tiene elementos
@@ -787,7 +912,7 @@ por un bloque que define, dado dos elementos, cuál va primero y cuál segundo.
   x* Transformar los elementos de una colección generando otra colección
   x* Totalizar valores que almacenan objetos de una colección, reducir una colección a un valores
   * Operatorias con conjuntos: includes/contains, union, intersection.
-  * Saber si todos/algún elemento cumple una condición
+  x* Saber si todos/algún elemento cumple una condición
   x* Bloque de código y Declaratividad
 * Iteradores externos e internos
 * Tipos de colecciones. Estáticas vs. dinámicas. Ordenadas y sin ordenar. Con índices.
@@ -805,14 +930,13 @@ por un bloque que define, dado dos elementos, cuál va primero y cuál segundo.
   * Comparativa general
 
 
-BIBLIOGRAFIA
-Victoria Pocladova, Carlos Lombardi, Leonardo Volinier y Jorge Silva por el artículo 
-``Colecciones en Smalltalk'' del sitio web \\
+\section{BIBLIOGRAFIA}
+
+Victoria Pocladova, Carlos Lombardi, Leonardo Volinier y Jorge Silva, \textit{Colecciones en Smalltalk}, 
+ del sitio web \\
 \begin{minipage}[t]{0.5\textwidth}
      \href{http://pdep.com.ar/material/apuntes}{{\color{blue}http://pdep.com.ar/material/apuntes}}
 \end{minipage}
-\\que en conjunto con el material que he preparado convergió en
-el presente apunte.
   
   
 \end{document}
