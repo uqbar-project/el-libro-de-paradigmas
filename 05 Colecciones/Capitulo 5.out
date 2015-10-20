@@ -1,37 +1,43 @@
 \BOOKMARK [0][-]{chapter.1}{Colecciones}{}% 1
 \BOOKMARK [1][-]{section.1.1}{Introducci\363n}{chapter.1}% 2
 \BOOKMARK [2][-]{subsection.1.1.1}{\277Qu\351 es una colecci\363n?}{section.1.1}% 3
-\BOOKMARK [2][-]{subsection.1.1.2}{Representaci\363n de colecciones}{section.1.1}% 4
+\BOOKMARK [2][-]{subsection.1.1.2}{Representaci\363n}{section.1.1}% 4
 \BOOKMARK [1][-]{section.1.2}{Interfaz de una colecci\363n}{chapter.1}% 5
 \BOOKMARK [1][-]{section.1.3}{Un ejemplo concreto: Misiones de un h\351roe}{chapter.1}% 6
 \BOOKMARK [2][-]{subsection.1.3.1}{Generar el atributo colecci\363n}{section.1.3}% 7
 \BOOKMARK [2][-]{subsection.1.3.2}{Primeras pruebas}{section.1.3}% 8
-\BOOKMARK [2][-]{subsection.1.3.3}{Conocer el tama\361o de una colecci\363n}{section.1.3}% 9
-\BOOKMARK [2][-]{subsection.1.3.4}{Saber si una colecci\363n tiene elementos}{section.1.3}% 10
-\BOOKMARK [2][-]{subsection.1.3.5}{Subclases nuevas para Misi\363n}{section.1.3}% 11
-\BOOKMARK [2][-]{subsection.1.3.6}{Nuevas misiones para el h\351roe}{section.1.3}% 12
-\BOOKMARK [2][-]{subsection.1.3.7}{Filtrar elementos de una colecci\363n}{section.1.3}% 13
-\BOOKMARK [1][-]{section.1.4}{Objetos bloque y declaratividad}{chapter.1}% 14
-\BOOKMARK [1][-]{section.1.5}{Operaciones con y sin efecto}{chapter.1}% 15
-\BOOKMARK [1][-]{section.1.6}{M\341s sobre colecciones}{chapter.1}% 16
-\BOOKMARK [2][-]{subsection.1.6.1}{Transformar los elementos de una colecci\363n}{section.1.6}% 17
-\BOOKMARK [2][-]{subsection.1.6.2}{Encontrar un elemento que satisfaga una condici\363n}{section.1.6}% 18
-\BOOKMARK [2][-]{subsection.1.6.3}{Totalizar valores de una colecci\363n}{section.1.6}% 19
-\BOOKMARK [2][-]{subsection.1.6.4}{Ordenar elementos de una colecci\363n}{section.1.6}% 20
-\BOOKMARK [1][-]{section.1.7}{Operatorias con conjuntos}{chapter.1}% 21
-\BOOKMARK [2][-]{subsection.1.7.1}{Elemento contenido en un conjunto}{section.1.7}% 22
-\BOOKMARK [2][-]{subsection.1.7.2}{Saber si alguno de los elementos cumple una condici\363n}{section.1.7}% 23
-\BOOKMARK [2][-]{subsection.1.7.3}{Uni\363n de conjuntos}{section.1.7}% 24
-\BOOKMARK [2][-]{subsection.1.7.4}{Intersecci\363n de conjuntos}{section.1.7}% 25
-\BOOKMARK [2][-]{subsection.1.7.5}{Diferencia de conjuntos}{section.1.7}% 26
-\BOOKMARK [2][-]{subsection.1.7.6}{Diferencia sim\351trica entre conjuntos}{section.1.7}% 27
-\BOOKMARK [1][-]{section.1.8}{Tipos de Colecciones}{chapter.1}% 28
-\BOOKMARK [2][-]{subsection.1.8.1}{Bag}{section.1.8}% 29
-\BOOKMARK [2][-]{subsection.1.8.2}{Set}{section.1.8}% 30
-\BOOKMARK [2][-]{subsection.1.8.3}{Dictionary}{section.1.8}% 31
-\BOOKMARK [2][-]{subsection.1.8.4}{OrderedCollection}{section.1.8}% 32
-\BOOKMARK [2][-]{subsection.1.8.5}{SortedCollection}{section.1.8}% 33
-\BOOKMARK [2][-]{subsection.1.8.6}{Colecciones est\341ticas}{section.1.8}% 34
-\BOOKMARK [1][-]{section.1.9}{Iteradores externos e internos}{chapter.1}% 35
-\BOOKMARK [1][-]{section.1.10}{Resumen}{chapter.1}% 36
-\BOOKMARK [1][-]{section.1.11}{Bibliograf\355a}{chapter.1}% 37
+\BOOKMARK [2][-]{subsection.1.3.3}{Variables y referencias}{section.1.3}% 9
+\BOOKMARK [2][-]{subsection.1.3.4}{Conocer el tama\361o de una colecci\363n}{section.1.3}% 10
+\BOOKMARK [2][-]{subsection.1.3.5}{Saber si una colecci\363n tiene elementos}{section.1.3}% 11
+\BOOKMARK [2][-]{subsection.1.3.6}{Subclases nuevas para Misi\363n}{section.1.3}% 12
+\BOOKMARK [2][-]{subsection.1.3.7}{Nuevas misiones para el h\351roe}{section.1.3}% 13
+\BOOKMARK [2][-]{subsection.1.3.8}{Filtrar elementos de una colecci\363n}{section.1.3}% 14
+\BOOKMARK [1][-]{section.1.4}{Objetos bloque y declaratividad}{chapter.1}% 15
+\BOOKMARK [1][-]{section.1.5}{Operaciones con y sin efecto}{chapter.1}% 16
+\BOOKMARK [1][-]{section.1.6}{M\341s sobre colecciones}{chapter.1}% 17
+\BOOKMARK [2][-]{subsection.1.6.1}{Transformar los elementos de una colecci\363n}{section.1.6}% 18
+\BOOKMARK [2][-]{subsection.1.6.2}{Encontrar un elemento que satisfaga una condici\363n}{section.1.6}% 19
+\BOOKMARK [2][-]{subsection.1.6.3}{Totalizar valores de una colecci\363n}{section.1.6}% 20
+\BOOKMARK [2][-]{subsection.1.6.4}{Ordenar elementos de una colecci\363n}{section.1.6}% 21
+\BOOKMARK [1][-]{section.1.7}{Operatorias con conjuntos}{chapter.1}% 22
+\BOOKMARK [2][-]{subsection.1.7.1}{Elemento contenido en un conjunto}{section.1.7}% 23
+\BOOKMARK [2][-]{subsection.1.7.2}{Saber si alguno de los elementos cumple una condici\363n}{section.1.7}% 24
+\BOOKMARK [2][-]{subsection.1.7.3}{Uni\363n de conjuntos}{section.1.7}% 25
+\BOOKMARK [2][-]{subsection.1.7.4}{Intersecci\363n de conjuntos}{section.1.7}% 26
+\BOOKMARK [2][-]{subsection.1.7.5}{Diferencia de conjuntos}{section.1.7}% 27
+\BOOKMARK [2][-]{subsection.1.7.6}{Diferencia sim\351trica entre conjuntos}{section.1.7}% 28
+\BOOKMARK [1][-]{section.1.8}{Tipos de Colecciones}{chapter.1}% 29
+\BOOKMARK [2][-]{subsection.1.8.1}{Bag}{section.1.8}% 30
+\BOOKMARK [2][-]{subsection.1.8.2}{Set}{section.1.8}% 31
+\BOOKMARK [2][-]{subsection.1.8.3}{Interacci\363n entre Set, = y hash}{section.1.8}% 32
+\BOOKMARK [2][-]{subsection.1.8.4}{Dictionary}{section.1.8}% 33
+\BOOKMARK [2][-]{subsection.1.8.5}{OrderedCollection}{section.1.8}% 34
+\BOOKMARK [2][-]{subsection.1.8.6}{SortedCollection}{section.1.8}% 35
+\BOOKMARK [2][-]{subsection.1.8.7}{Colecciones est\341ticas}{section.1.8}% 36
+\BOOKMARK [2][-]{subsection.1.8.8}{Conversi\363n de colecciones}{section.1.8}% 37
+\BOOKMARK [2][-]{subsection.1.8.9}{Resumen de mensajes}{section.1.8}% 38
+\BOOKMARK [2][-]{subsection.1.8.10}{Taxonom\355a de las colecciones}{section.1.8}% 39
+\BOOKMARK [2][-]{subsection.1.8.11}{C\363mo elegir el tipo de colecci\363n}{section.1.8}% 40
+\BOOKMARK [1][-]{section.1.9}{Iteradores externos e internos}{chapter.1}% 41
+\BOOKMARK [1][-]{section.1.10}{Resumen}{chapter.1}% 42
+\BOOKMARK [1][-]{section.1.11}{Bibliograf\355a}{chapter.1}% 43

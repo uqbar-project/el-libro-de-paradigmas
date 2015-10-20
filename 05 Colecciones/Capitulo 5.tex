@@ -23,6 +23,10 @@
 \usepackage{graphicx}
 \usepackage{placeins}
 
+% Para trabajar con tablas
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+
 % Para insertar código
 \usepackage{xcolor}
 \usepackage{listings}
@@ -79,7 +83,7 @@ colección los conoce.
     \caption{La colección es un conjunto de referencias a otros objetos}
 \end{figure}
 \\
-\subsection{Representación de colecciones}
+\subsection{Representación}
 Podemos graficar la relación dinámica entre un equipo de fútbol y los jugadores que lo integran mediante un diagrama
 de objetos. Este es un diagrama con características \textit{dinámicas}, porque muestra el estado 
 de los objetos en un momento determinado.
@@ -261,6 +265,42 @@ Vemos que el mensaje tuvo efecto inspeccionando la referencia diego: escribimos 
     \centering	
     \includegraphics[width=0.9\textwidth]{images/14_coleccion_inicial.png}
     \caption{diego es un héroe y tiene una referencia en la colección misiones}
+\end{figure}
+\FloatBarrier
+
+\subsection{Variables y referencias}
+
+Supongamos que el código anterior se hubiera escrito:
+
+\begin{code}
+misionX := BuscarItemMagico new.
+diego := Heroe new
+  agregarMision: misionX.
+\end{code}
+
+¿Qué diferencia hubiera tenido? Sólo creamos una variable más, esto implica que el objeto BuscarItemMagico 
+tendría una referencia más, algo que le importa al Garbage Collector, no tanto a nosotros.
+
+\begin{figure}[h!]
+    \centering	
+    \includegraphics[width=1\textwidth]{images/30_Referencias_colecciones.pdf}
+    \caption{Dos referencias hacia el objeto BuscarItemMagico}
+\end{figure}
+\FloatBarrier
+
+¿Y si luego hacemos?
+
+\begin{code}
+misionX := 'Hola'.
+\end{code}
+
+La colección de misiones de diego sigue referenciando al mismo objeto original, sólo cambió la referencia
+en mi workspace que yo llamo misionX.
+
+\begin{figure}[h!]
+    \centering	
+    \includegraphics[width=1\textwidth]{images/31_Referencias_colecciones.pdf}
+    \caption{Un cambio en la referencia de la variable no modifica la referencia de la colección}
 \end{figure}
 \FloatBarrier
 
@@ -516,10 +556,11 @@ colección tenemos la posibilidad de hacer algo con cada elemento de la colecci�
  \item o utilizar variables de diferente alcance: variables internas al bloque do:, variables locales en el mismo
  método, o variables globales, como las variables de instancia, o las de clase
 \end{itemize}
-A lo largo del libro intentaremos pensar nuestras soluciones utilizando bloques de más alto nivel, que aumenten
-la \textbf{declaratividad}, esto es no pensar tanto en el algoritmo, o cómo se resuelve, sino en lo que nosotros
-queremos lograr (el qué). Para eso utilizaremos objetos \textbf{closures} que modelan bloques de código 
-(los que se encierran entre corchetes) y la rica interfaz de colecciones que provee Smalltalk.
+A lo largo del libro intentaremos pensar nuestras soluciones utilizando abstracciones de más alto nivel, 
+que aumenten la \textbf{declaratividad}, esto es no pensar tanto en el algoritmo, o cómo se resuelve, 
+sino en lo que nosotros queremos lograr (el qué). Para eso utilizaremos objetos \textbf{closures} que
+modelan bloques de código  (los que se encierran entre corchetes) y la rica interfaz de colecciones que
+provee Smalltalk.
 
 ¿Cómo se modela un bloque de código? Muy fácil:
 
@@ -540,6 +581,10 @@ También podemos crear objetos bloque donde le pasemos parámetros:
 \begin{code}
 factorial := [ :numero | numero factorial ].
 \end{code}
+
+\fd{En el libro Squeak by Example hablan de una expresion lambda , 
+está bueno dejar un |x - x factorial pero sin una explicacion sobre dónde ir a buscar algo de expresiones
+lambda me parece que queda descolgado. Para esta primera iteración yo paso de extenderme más }
 
 Pero ahora ya no podemos evaluarlo con value:
 
@@ -593,7 +638,7 @@ Cuántos objetos intervienen:
 
 Tener al bloque de código como abstracción me permite separar dos momentos: cuando creo al objeto y le digo lo
 que tiene que hacer, y cuando efectivamente lo ejecuta (enviándole el mensaje value, value: o value:value: en
-base a la cantidad de parámetros que tenga).
+base a la cantidad de parámetros que tenga). Por otra parte los mensajes select:, collect: 
 
 \section{Operaciones con y sin efecto}
 
@@ -615,8 +660,8 @@ que cumplen ese criterio...
 Nos piden determinar quiénes son los solicitantes de las misiones de un héroe. Lo que sabemos es que cada
 héroe tiene n misiones, y que cada misión tiene un solicitante, pero a su vez un solicitante puede pedir
 varias misiones (la relación Solicitante-Misión es n a 1, o \textit{many-to-one}).
-\\
-\\
+\newline
+\newline
 Entonces debemos
 \begin{itemize}
  \item transformar cada misión en un solicitante
@@ -1018,12 +1063,14 @@ De todas maneras, en Smalltalk tenemos una gran variedad de ``sabores'' en cuant
 entre otras posibilidades. A continuación estudiaremos los diferentes tipos de colecciones \textbf{dinámicas}, que
 suelen agregar nuevos elementos mediante el mensaje add: y eliminarlos mediante el mensaje remove:.
 
+TODO: Hacer gráficos de cada colección
+
 \subsection{Bag}
 
 Representa una bolsa, o valija, donde guardamos ``cosas''. Como toda valija, las cosas están desordenadas: 
 encontrar algo puede llevar tiempo. Sirve para representar un conjunto donde los elementos pueden 
 repetirse. La cantidad de elementos es variable. Un ejemplo posible puede ser un carrito de compras 
-de un supermercado. 
+de un supermercado: llevamos 7 latas de duraznos en almíbar, 2 paquetes de harina, 8 gaseosas y 1 levaduras. 
 
 \subsection{Set}
 
@@ -1045,6 +1092,8 @@ numeros size
 \end{code}
 
 La respuesta es claramente 2, porque el add: no tiene efecto si queremos insertar un elemento existente.
+
+\subsection{Interacción entre Set, = y hash}
 Debemos entonces tener cuidado con la definición del = y el hash respecto a los elementos que insertemos.
 \textit{Ejemplo}: supongamos que el héroe tiene un nombre con sus accessors, e incorporamos estos métodos
 
@@ -1061,7 +1110,7 @@ Es importante que cada vez que redefinamos el método = también hagamos lo prop
 Entonces generamos nuestro Set de héroes:
 
 \begin{code}
-#Heroe
+#Workspace
 heroes := Set new.
 heroes add: (Heroe new nombre: 'Hercules').
 heroes add: (Heroe new nombre: 'Superman').
@@ -1072,7 +1121,6 @@ heroes size
 La respuesta es claramente \textbf{2}. Si borramos las definiciones de = y hash y volvemos a evaluar 
 el código de arriba, ahora vemos que la respuesta es \textbf{3}. Es importante tener esto en cuenta cuando
 vayamos a utilizar un Set para modelar una colección.
-
 
 \subsection{Dictionary}
 
@@ -1111,6 +1159,27 @@ los mensajes collect:, select:, detect:, inject:into:, etc.
 Es una lista que respeta el mismo orden en que se insertaron los elementos. Se representa como una lista
 doblemente enlazada, la forma ``natural'' de acceder a los elementos es por índice numérico: el primero, 
 el tercero, el sexto, e incluso el último. La lista es dinámica y admite elementos duplicados. 
+\\
+\\
+Un ejemplo práctico es la fila del supermercado o de un banco, es importante respetar el orden de cada
+persona en esa fila. Lo mismo pasa cuando al diseñar la interfaz de usuario mostramos opciones en una
+lista o selector: si las opciones se ordenan distinto cada vez eso produce incomodidad al usuario.
+\\
+\\
+La clase OrderedCollection define el método add: para que se comporte como un addLast:, es decir que cada
+elemento se agrega último a la colección. Podemos implementar un modelo de pila si agregamos los elementos
+enviando los mensajes addFirst: y removeFirst, como vemos en el ejemplo:
+
+\begin{code}
+pila := OrderedCollection new.
+pila addFirst: 3.
+pila addFirst: 'soy un string'.
+pila addFirst: 5.5.
+pila removeFirst.
+pila
+  an OrderedCollection('soy un string' 3)
+\end{code}
+
 
 \subsection{SortedCollection}
 
@@ -1146,7 +1215,43 @@ buscarAnilloMagico := BuscarItemMagico new recompensa: 500.
 \end{code}
 
 ¿Qué devuelve? Un valor booleano, que es el que utiliza el método asSortedCollection: para definir el criterio
-de ordenamiento de los elementos. 
+de ordenamiento de los elementos: si el bloque devuelve true el primer elemento se ordena antes que el segundo,
+en caso contrario el segundo elemento se ordena antes que el primero.
+\\
+\\
+También podemos utilizar el mensaje asSortedCollection que toma ``el orden natural de los elementos'',
+esto implica que los objetos deben entender el mensaje \textless= :
+
+\begin{code}
+#Workspace
+#(8 4 15 23 42 16) asSortedCollection 
+  a SortedCollection(4 8 15 16 23 42)
+\end{code}
+
+Esto no funciona para héroes:
+
+\begin{code}
+#Workspace
+heroes asSortedCollection
+  {mensaje de error: Heroe no entiende el mensaje <=}
+\end{code}
+
+A menos de que explícitamente definamos un método \textless= en Heroe:
+
+\begin{code}
+#Heroe
+<= otroHeroe
+   ^nombre <= otroHeroe nombre
+\end{code}
+
+Esto implica que ``naturalmente'' los héroes se ordenan alfabéticamente:
+
+\begin{code}
+#Workspace
+heroes asSortedCollection
+  {ahora aparecen ordenados}
+\end{code}
+
 
 \subsection{Colecciones estáticas}
 
@@ -1156,37 +1261,152 @@ espacio o tiempo, entonces podemos trabajar con una cantidad fija de elementos.
 El \textbf{Array}, también conocido como vector, trabaja con elementos que se acceden por índice posicional
 numérico.
 
+En general, no tiene sentido enviar el mensaje add: si la colección es estática.
+
 \begin{code}
 #Workspace
 diasDeLaSemana := Array new: 7.
+diasDeLaSemana add: 'DiaExtra'.   
+{mensaje de error: #add should not have been implemented in Array}
+\end{code}
+
+En el caso del Array, accedemos a los elementos mediante un mensaje at: y los actualizamos a partir del mensaje
+at:put:
+
+\begin{code}
+#Workspace
 diasDeLaSemana at: 1 put: 'Lunes'.
 diasDeLaSemana at: 1
 \end{code}
 
-En general, las colecciones estáticas reemplazan el mensaje add: por algún otro mecanismo de actualización.
-En el caso del Array, accedemos a los elementos mediante un mensaje at: y los actualizamos a partir del mensaje
-at:put:, como vemos en el código de arriba.
-
-Otra variante es el \textbf{String}, que es un objeto \textit{inmutable}, se construye mediante un literal 
-(las comillas simples) y una vez generado no se modifica, sino que se van generando nuevos Strings a partir
-de los strings originales.
+Otra variante es el \textbf{String}, que es una secuencia de caracteres \textit{mutable}, se construye
+mediante un literal (las comillas simples).
 
 \begin{code}
 nombre := 'Laura'.
-nombre := nombre , ' Iturbe'
+nombre2 := nombre.
+nombre at: 1 put: \$M.
+nombre2
+    Maura
 \end{code}
 
-Aquí la referencia a nombre se cambia del primer objeto (el String 'Laura') al segundo que es el que resulta
-de la concatenación de 'Laura' con ' Iturbe'.
-\\
-\\
+El lector interesado puede ver los mensajes match:, format:, expandMacrosWith:, capitalized, asUppercase,
+asLowercase, asNumber, entre otros.
+
 Por último el objeto \textbf{Interval} permite modelar un rango de valores numérico.
 
 \begin{code}
 (1 to: 5) ...
 \end{code}
 
-TODO: Arbol de decisión para elegir colecciones
+\subsection{Conversión de colecciones}
+
+Además del método asSortedCollection:, cualquier colección puede convertirse a otra utilizando el mensaje
+de transformación correspondiente:
+
+\begin{code}
+filaDeHeroes := heroes asSortedCollection.
+solicitantesDeMisiones := heroe solicitantes asSet.
+jugadores asBag
+\end{code}
+
+
+\subsection{Resumen de mensajes}
+
+Dejamos aquí una tabla con los principales mensajes que se pueden encontrar en la jerarquía de Collection,
+igualmente recomendamos navegar la estructura en la versión de Smalltalk que esté trabajando el lector
+para un análisis más exhaustivo:
+
+\begin{center}
+
+\begin{tabular}{|l|l|}
+\hline
+\cellcolor[gray]{0.8}
+Categoria & \cellcolor[gray]{0.8} Mensajes \\
+\hline
+accessing & anyOne, size, at: (colecciones ordenadas) \\
+\hline
+adding & add: (colecciones dinamicas), addAll: \\
+\hline
+\multirow{2}{*} {converting} & asArray, asBag, asDictionary, \\
+& asOrderedCollection, asSet, asSortedCollection: \\
+\hline
+\multirow{4}{*} {enumerating} & allSatisfy:, anySatisfy:, collect:, count:, \\
+& detect:, detect:ifNone:, detect:ifFound:, \\
+& difference:, do:, flattened, fold:, inject:into:, \\
+& intersection:, noneSatisfy:, reduce:, reject:, union:\\
+\hline
+math functions & median, stdev, sum: \\
+\hline
+\multirow{2}{*} {removing} & remove:, remove:ifAbsent:, removeAll, \\
+& removeAllSuchThat: \\ 
+\hline
+\multirow{2}{*} {testing} & contains:, ifEmpty:, includes:, \\
+& isEmpty, notEmpty, ocurrencesOf: \\
+\hline
+\end{tabular}
+
+\end{center}
+
+\subsection{Taxonomía de las colecciones}
+
+Aquí dejamos otra tabla en la que generamos una clasificación de las colecciones en base a las siguientes
+características:
+
+\begin{itemize}
+ \item \textbf{ser secuenciales}: implica que hay un orden de los elementos
+ \item \textbf{ser indexados}: se manejan con un índice entero, string o cualquier otro. Entienden el mensaje at:
+ \item \textbf{que se pueden ordenar}: el orden no tiene que ver con el momento en que se agregan
+ sino con un criterio que se define (por nombre de menor a mayor, por recompensa de mayor a menor, etc.)
+ \item \textbf{con claves}: implica que podemos acceder a un elemento a partir de alguna clave. El mensaje
+ at: permite utilizar algo más que un número.
+ \item \textbf{que puede crecer}: de lo contrario son de tamaño fijo
+ \item \textbf{con duplicados}: donde los elementos pueden repetirse
+\end{itemize}
+
+En la presente tabla clasificamos las colecciones de objetos heterogéneos más utilizadas:
+\newline
+
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\cellcolor[gray]{0.8}
+Categoria & \cellcolor[gray]{0.8} Set & \cellcolor[gray]{0.8} Bag & \cellcolor[gray]{0.8} OrderedCol
+& \cellcolor[gray]{0.8} SortedCol & \cellcolor[gray]{0.8} Dictionary
+& \cellcolor[gray]{0.8} Array \\
+\hline
+Secuencia & & & $\surd$ & $\surd$ & & $\surd$ \\
+\hline
+Indice & & & $\surd$ & $\surd$ & & $\surd$ \\
+\hline
+Se ordenan & & & & $\surd$ & & \\
+\hline
+Buscar por clave & & & & & $\surd$ & \\
+\hline
+Puede crecer & $\surd$ & $\surd$ & $\surd$ & $\surd$ & $\surd$ & \\
+\hline
+Con duplicados & & $\surd$ & $\surd$ & $\surd$ & (*) & $\surd$ \\
+\hline
+\end{tabular}
+\newline\newline
+
+(*) El Dictionary no permite duplicados en la clave, aunque sí permite que dos claves compartan el mismo objeto
+
+\subsection{Cómo elegir el tipo de colección}
+
+Si existen dudas a la hora de elegir una colección de elementos que son heterogéneos, esto es, que no se trata
+de una colección de caracteres, le proporcionamos al lector un ayudamemoria que puede ser de utilidad:
+
+\begin{itemize}
+ \item Si la cantidad de elementos es fija, una pregunta importante es cuántas veces necesitamos acceder
+ a los elementos en forma puntual. Si nos basta con tener un índice entero o no es crítica la cantidad
+ de elementos, el \textbf{Array} nos puede servir, de lo contrario debería considerarse el \textbf{Dictionary}.
+ \item A partir de aquí, asumimos que la colección es dinámica: se crean y eliminan gran cantidad de elementos.
+ Si el orden no importa, la pregunta siguiente es si queremos evitar elementos duplicados: por sí nos conviene
+ utilizar un \textbf{Set}, o un \textbf{Bag} en caso contrario. Si el orden importa, nos debemos preguntar cómo
+ lo queremos definir: si es por el orden en que se agregan los elementos podemos elegir \textbf{OrderedCollection}
+ o bien una \textbf{SortedCollection} si queremos utilizar un criterio de ordenamiento específico. 
+\end{itemize}
+
 
 \section{Iteradores externos e internos}
 
@@ -1253,7 +1473,8 @@ hayProximoTurno
    ^heroes allSatisfy: [ :heroe | heroe estaMoribundo not ]
    
 siguiente
-   self hayProximoTurno ifFalse: [ self error: 'La contienda ha terminado' ].
+   self hayProximoTurno 
+        ifFalse: [ self error: 'La contienda ha terminado' ].
    indice := indice + 1.
    (indice > heroes size) ifTrue: [ indice := 1 ].
    ^heroes at: indice
@@ -1282,15 +1503,29 @@ Las colecciones son un concepto fundamental en el diseño orientado a objetos pa
 de elementos que están relacionados. A través del capítulo hemos visto la enorme cantidad de mensajes 
 que podemos enviarle, así como las diferentes opciones que conforman la jerarquía general de Collection.
 
+TODO: Viñetas resumiendo en una página.
+
 \section{Bibliografía}
 
-\textit{Smalltalk-80, The Language}, Adele Goldberg, David Robson, Addison-Wesley
-
-\textit{Colecciones en Smalltalk}, de Victoria Pocladova, Carlos Lombardi, Leonardo Volinier y Jorge Silva, 
+\begin{itemize}
+ \item Adele Goldberg, David Robson, \textit{Smalltalk-80, The Language}, Addison-Wesley, TODO: Capítulos
+ \item Andrew Black, Stéphane Ducasse, Oscar Nierstrasz, Damien Pollet, \textit{Squeak by Example}, 
+ Square Bracket Associates, en especial capítulos 9 (Collections) y 10 (Streams)
+ \item Victoria Pocladova, Carlos Lombardi, Leonardo Volinier y Jorge Silva, \textit{Colecciones en Smalltalk},
  del sitio web \\
 \begin{minipage}[t]{0.5\textwidth}
      \href{http://pdep.com.ar/material/apuntes}{{\color{blue}http://pdep.com.ar/material/apuntes}}
 \end{minipage}
-  
+ \item Kent Beck, \textit{Smalltalk Best Practice Patterns}, Prentice-Hall, TODO: Capítulos
+ \item Wilf Lalonde, \textit{Descubra Smalltalk}, Addison Wesley/Díaz de Santos, capítulo 7 (Objetos contenedores)
+ \item Fernando Dodino, \textit{Objetos - Módulo 5} (Intro a Colecciones. Bloques de código. Declaratividad en objetos)
+ y \\ \textit{Objetos - Módulo 6}, (Tipos de Colección), del sitio web \\
+\begin{minipage}[t]{0.5\textwidth}
+     \href{http://http://pdep.com.ar/material/apuntes/clases-sabado-a-la-manana}
+     {{\color{blue}http://http://pdep.com.ar/material/apuntes/clases-sabado-a-la-manana}}
+\end{minipage} 
+\end{itemize}
+
+ 
   
 \end{document}
