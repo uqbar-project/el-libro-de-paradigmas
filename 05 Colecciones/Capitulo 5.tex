@@ -335,6 +335,7 @@ tieneMisiones
 
     
 \begin{code}
+
 // Opcion 2
 tieneMisiones
     ^misiones size > 0
@@ -1074,6 +1075,13 @@ de un supermercado: llevamos 7 latas de duraznos en almíbar, 2 paquetes de hari
 
 \subsection{Set}
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/40_Set.pdf}
+    \caption{Un conjunto de elementos, sin orden ni duplicados}
+\end{figure}
+\FloatBarrier
+
 Es el conjunto matemático, y respeta la definición de que no hay elementos repetidos, ni orden. Pero mientras
 el conjunto matemático es fijo, el Set de Smalltalk permite agregar o eliminar dinámicamente elementos. 
 Un dato importante es que la forma de asegurar que los elementos no se repiten está basado en dos mensajes:
@@ -1124,6 +1132,13 @@ vayamos a utilizar un Set para modelar una colección.
 
 \subsection{Dictionary}
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/40_Dictionary.pdf}
+    \caption{El Dictionary permite acceder a los elementos por clave, un String o cualquier otro objeto}
+\end{figure}
+\FloatBarrier
+
 Mientras que Bag y Set no tienen una forma de acceder a un cierto elemento, el Dictionary permite generar un
 mapa de valores accesibles mediante una clave, lo que resulta en un conjunto de pares clave-valor. El ejemplo
 típico de este tipo de colecciones es la agenda de contactos, y son muy útiles cuando necesitamos
@@ -1147,7 +1162,7 @@ Para iterar un Dictionary tenemos tres opciones
 \begin{itemize}
  \item iterando sus claves => keysDo:
  \item iterando sus valores => valuesDo:
- \item iterando claves y valores a la vez, a partir de un objeto Association => 
+ \item iterando claves y valores a la vez, a partir de un objeto Association => \newline 
  keysAndValuesDo:
 \end{itemize}
 
@@ -1155,6 +1170,13 @@ De todas maneras, si necesitamos trabajar con todos los elementos de un Dictiona
 los mensajes collect:, select:, detect:, inject:into:, etc.
 
 \subsection{OrderedCollection}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/40_OrderedCollection.pdf}
+    \caption{Una colección que respeta el orden de inserción de los elementos}
+\end{figure}
+\FloatBarrier
 
 Es una lista que respeta el mismo orden en que se insertaron los elementos. Se representa como una lista
 doblemente enlazada, la forma ``natural'' de acceder a los elementos es por índice numérico: el primero, 
@@ -1182,6 +1204,13 @@ pila
 
 
 \subsection{SortedCollection}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/40_SortedCollection.pdf}
+    \caption{En una colección con un criterio de ordenamiento específico, los elementos se van ubicando en base a dicho criterio}
+\end{figure}
+\FloatBarrier
 
 Es una colección en donde los elementos están ordenados por un criterio, llamado sortBlock. Cada vez que
 insertamos un elemento en la colección lo hacemos respetando el orden que debe tener, por lo que tienen
@@ -1260,7 +1289,8 @@ espacio o tiempo, entonces podemos trabajar con una cantidad fija de elementos.
 
 El \textbf{Array}, también conocido como vector, trabaja con elementos que se acceden por índice posicional
 numérico.
-
+\newline
+\newline
 En general, no tiene sentido enviar el mensaje add: si la colección es estática.
 
 \begin{code}
@@ -1310,6 +1340,9 @@ solicitantesDeMisiones := heroe solicitantes asSet.
 jugadores asBag
 \end{code}
 
+\subsection{Jerarquía de colecciones}
+
+TODO: Diagrama de clases
 
 \subsection{Resumen de mensajes}
 
@@ -1380,7 +1413,7 @@ Indice & & & $\surd$ & $\surd$ & & $\surd$ \\
 \hline
 Se ordenan & & & & $\surd$ & & \\
 \hline
-Buscar por clave & & & & & $\surd$ & \\
+Busca por clave & & & & & $\surd$ & \\
 \hline
 Puede crecer & $\surd$ & $\surd$ & $\surd$ & $\surd$ & $\surd$ & \\
 \hline
@@ -1406,7 +1439,6 @@ de una colección de caracteres, le proporcionamos al lector un ayudamemoria que
  lo queremos definir: si es por el orden en que se agregan los elementos podemos elegir \textbf{OrderedCollection}
  o bien una \textbf{SortedCollection} si queremos utilizar un criterio de ordenamiento específico. 
 \end{itemize}
-
 
 \section{Iteradores externos e internos}
 
@@ -1508,15 +1540,18 @@ TODO: Viñetas resumiendo en una página.
 \section{Bibliografía}
 
 \begin{itemize}
- \item Adele Goldberg, David Robson, \textit{Smalltalk-80, The Language}, Addison-Wesley, TODO: Capítulos
  \item Andrew Black, Stéphane Ducasse, Oscar Nierstrasz, Damien Pollet, \textit{Squeak by Example}, 
- Square Bracket Associates, en especial capítulos 9 (Collections) y 10 (Streams)
+ Square Bracket Associates, en especial capítulos 9 - Collections y 10 - Streams
  \item Victoria Pocladova, Carlos Lombardi, Leonardo Volinier y Jorge Silva, \textit{Colecciones en Smalltalk},
  del sitio web \\
 \begin{minipage}[t]{0.5\textwidth}
      \href{http://pdep.com.ar/material/apuntes}{{\color{blue}http://pdep.com.ar/material/apuntes}}
 \end{minipage}
- \item Kent Beck, \textit{Smalltalk Best Practice Patterns}, Prentice-Hall, TODO: Capítulos
+ \item Kent Beck, \textit{Smalltalk Best Practice Patterns}, Prentice-Hall, capítulo 5 - Collections
+ \item Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, \textit{Design Patterns, Elements of
+ Reusable Object-Oriented Software}, Addison-Wesley, capítulo sobre el patrón Iterator (257)
+ \item Adele Goldberg, David Robson, \textit{Smalltalk-80, The Language}, Addison-Wesley, 
+ capítulos 9 - Protocol for All Collection Classes y 10 - Hierarchy of the Collection Classes
  \item Wilf Lalonde, \textit{Descubra Smalltalk}, Addison Wesley/Díaz de Santos, capítulo 7 (Objetos contenedores)
  \item Fernando Dodino, \textit{Objetos - Módulo 5} (Intro a Colecciones. Bloques de código. Declaratividad en objetos)
  y \\ \textit{Objetos - Módulo 6}, (Tipos de Colección), del sitio web \\
@@ -1525,7 +1560,6 @@ TODO: Viñetas resumiendo en una página.
      {{\color{blue}http://http://pdep.com.ar/material/apuntes/clases-sabado-a-la-manana}}
 \end{minipage} 
 \end{itemize}
-
  
   
 \end{document}
