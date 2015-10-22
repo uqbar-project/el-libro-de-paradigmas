@@ -57,6 +57,8 @@ concreto.
 
 \tableofcontents
 
+\newpage
+
 \section{Introducción}
 
 \subsection{¿Qué es una colección?}
@@ -64,7 +66,7 @@ La colección nos permite representar un conjunto de objetos relacionados: los j
 un cardumen de peces, las cosas que un héroe guarda en su mochila, un ejército, son ejemplos de este
 tipo de abstracciones.\\
 \\
-Otra definición posible es que una colección nos sirve para modelar una relación 1 a N:\\
+Otra definición posible es que una colección nos sirve para modelar una relación 1 a N:
 \begin{itemize}
 \item Una factura tiene muchas líneas con productos
 \item Un escritor publicó varios libros
@@ -72,17 +74,19 @@ Otra definición posible es que una colección nos sirve para modelar una relaci
 \item Un héroe tiene que cumplir varias misiones
 \end{itemize}
 
+\vspace{\baselineskip}
+
 A primera vista una colección es un conjunto de objetos. Si la vemos con más precisión nos damos cuenta que es más
 preciso pensarla como un conjunto de referencias: los elementos no están adentro de la colección, sino que la
 colección los conoce. 
 \\
-\\
-\begin{figure}
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/01_GraficoInicial_Colecciones.pdf}
+    \includegraphics[width=0.8\textwidth]{images/01_Grafico_Inicial.pdf}
     \caption{La colección es un conjunto de referencias a otros objetos}
 \end{figure}
-\\
+\FloatBarrier
+
 \subsection{Representación}
 Podemos graficar la relación dinámica entre un equipo de fútbol y los jugadores que lo integran mediante un diagrama
 de objetos. Este es un diagrama con características \textit{dinámicas}, porque muestra el estado 
@@ -90,7 +94,7 @@ de los objetos en un momento determinado.
 \\
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1.1\textwidth]{images/02_Diagrama_Objetos_Equipo.pdf}
+    \includegraphics[width=1.1\textwidth]{images/02_Equipo_Coleccion.pdf}
     \caption{El plantel de jugadores de un equipo como una colección de objetos}
 \end{figure}
 \FloatBarrier
@@ -1064,9 +1068,14 @@ De todas maneras, en Smalltalk tenemos una gran variedad de ``sabores'' en cuant
 entre otras posibilidades. A continuación estudiaremos los diferentes tipos de colecciones \textbf{dinámicas}, que
 suelen agregar nuevos elementos mediante el mensaje add: y eliminarlos mediante el mensaje remove:.
 
-TODO: Hacer gráficos de cada colección
-
 \subsection{Bag}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/40_Bag.pdf}
+    \caption{En una bolsa o \textit{bag}, tenemos la referencia a n objetos con la cantidad de veces que se repite}
+\end{figure}
+\FloatBarrier
 
 Representa una bolsa, o valija, donde guardamos ``cosas''. Como toda valija, las cosas están desordenadas: 
 encontrar algo puede llevar tiempo. Sirve para representar un conjunto donde los elementos pueden 
@@ -1342,7 +1351,31 @@ jugadores asBag
 
 \subsection{Jerarquía de colecciones}
 
-TODO: Diagrama de clases
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/40_Bag.pdf}
+    \caption{En una bolsa o \textit{bag}, tenemos la referencia a n objetos con la cantidad de veces que se repite}
+\end{figure}
+\FloatBarrier
+
+Algunas clases extras que el lector puede investigar:
+
+\begin{itemize}
+ \item \textbf{LinkedList}: una implementación de una lista simplemente enlazada.
+ \item \textbf{Stack}: una implementación tradicional de una pila, con los métodos pop, push: y top.
+ \item \textbf{LIFOQueue, SharedQueue}: una cola de acceso (eventualmente compartida) con métodos
+ de actualización sincronizados.
+ \item \textbf{ByteArray}: una especialización del Array que contiene enteros del 0 al 255.
+ \item \textbf{Stream}: la representación del acceso a un conjunto de datos cuyo origen puede ser un socket, un
+ archivo, entre otros. De esta clase abstracta heredan ReadStream, WriteStream, TextStream, entre otros.
+ \item \textbf{IdentitySet, IdentityBag, IdentityDictionary}: son colecciones que basan el criterio de búsqueda
+ en la identidad (==) en lugar de la igualdad (=)
+ \item \textbf{KeyedTree}: representa un árbol cuyos nodos se acceden por clave.
+ \item \textbf{Matrix}
+ \item \textbf{WeakSet, WeakArray, WeakBag...}: son colecciones que referencian a objetos en forma ``débil'',
+ esto significa que si ningún otro objeto los referencia son eliminados por el Garbage Collector.
+\end{itemize}
+
 
 \subsection{Resumen de mensajes}
 
@@ -1531,11 +1564,24 @@ turno siguiente nombre => 'Diego'
 \end{code}
 
 \section{Resumen}
-Las colecciones son un concepto fundamental en el diseño orientado a objetos para modelar un conjunto
-de elementos que están relacionados. A través del capítulo hemos visto la enorme cantidad de mensajes 
-que podemos enviarle, así como las diferentes opciones que conforman la jerarquía general de Collection.
 
-TODO: Viñetas resumiendo en una página.
+Hemos visto en el presente capítulo
+
+\begin{itemize}
+ \item que las colecciones son un concepto fundamental en el diseño orientado a objetos para modelar un conjunto
+ de elementos que están relacionados. 
+ \item a diferencia de los vectores de los lenguajes imperativos, tenemos una interfaz de mensajes muy rica que
+ incluyen métodos para filtrar los elementos, transformarlos en otra colección, reducir los elementos para obtener
+ un valor, encontrar un elemento, o trabajar con la lógica de conjuntos
+ \item esta gran cantidad de mensajes permite subir el nivel de abstracción, despegando al desarrollador de la
+ parte algorítmica repetitiva, mediante el uso de los objetos bloque
+ \item otra de las decisiones importantes que debemos hacer a la hora de trabajar con colecciones es el tipo
+ de estructura con la que vamos a trabajar. Esta decisión depende de varios factores: si se aceptan elementos
+ duplicados, si queremos mantener un orden de los elementos, si ese orden lo queremos definir explícitamente,
+ cuán fácil queremos hacer la búsqueda de un elemento particular, si la cantidad de elementos es fija o variable,
+ etc.
+\end{itemize}
+
 
 \section{Bibliografía}
 
