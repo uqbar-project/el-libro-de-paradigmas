@@ -98,7 +98,7 @@ de los objetos en un momento determinado.
     \caption{El plantel de jugadores de un equipo como una colección de objetos}
 \end{figure}
 \FloatBarrier
-También podemos generar un diagrama de clases en UML de la misma relación:
+También podemos generar un diagrama de clases de la misma relación:
 \begin{figure}[h!]
     \centering	
     \includegraphics[width=0.9\textwidth]{images/03_Diagrama_Clases_Equipo.pdf}
@@ -130,15 +130,15 @@ Supongamos que tenemos un álbum de fotos, otra representación posible de una c
 \item Saber si está una determinada foto en el álbum: saber si un elemento pertenece a la colección
 \item Pegar una foto nueva: agregar un elemento a la colección
 \item Regalar una foto a alguien: eliminar un elemento de la colección
-\item Buscar qué fotos son de Ushuaia: filtrar/seleccionar elementos de una colección
+\item Seleccionar las fotos del viaje de 1999 a Ushuaia: filtrar elementos de una colección
 \item Anotar las personas que salieron en mis fotos: transformar los elementos de una colección
-\item Saber si hay alguna foto de Navidad: determinar si alguno/todos los elementos satisfacen 
+\item Saber si hay alguna foto de Navidad: determinar si alguno o todos los elementos satisfacen 
 un criterio
 \end{itemize}
 En el último requerimiento aparece también la idea de conjunto vacío. 
 En general podemos asociar la noción matemática de conjunto a la colección, aunque sabemos que el conjunto
-matemático no tiene orden, ni se ``recorre'', mientras que en la colección eso depende de la intención que
-nosotros tengamos, como veremos más adelante.
+matemático no tiene orden, ni se ``recorre'', mientras que en la colección eso depende de la implementación 
+que elijamos, como veremos más adelante.
 \\
 \section{Un ejemplo concreto: Misiones de un héroe}
 En ciertos casilleros el héroe puede encontrar misiones y nuevos objetivos. Por ejemplo, un mago puede
@@ -150,16 +150,16 @@ recompensa de oro, y de respeto.
 \\
 \\
 ¿Qué abstracciones surgen? El héroe ahora tiene una colección de misiones. En principio vamos a pensar en
-dos tipos de misiones: 1) buscar un ítem mágico, 2) liberar a una doncella. Las misiones deben tener una
-recompensa (más adelante podemos modelar unidades de oro o de respeto para ello), un solicitante y el estado,
-que puede ser pendiente o cumplida. 
+dos tipos de misiones: 1) buscar un ítem mágico, 2) liberar a una doncella. Las misiones tienen una
+recompensa representada como un valor numérico (más adelante podemos modelar unidades de oro o de respeto
+para ello), un solicitante y el estado, que puede ser pendiente o cumplida. 
 \\
 \\
 Además nos avisan que existen misiones difíciles, que son aquellas que tienen más de 2 meses de iniciada, 
 y además
 \begin{itemize}
- \item si la montaña donde está el ítem a buscar queda a más de 100 kms. o bien 
- \item si la doncella a liberar está custodiada por más de 4 trolls
+ \item la montaña donde está el ítem a buscar queda a más de 100 kms. o bien 
+ \item la doncella a liberar está custodiada por más de 4 trolls
 \end{itemize}
 
 \subsection{Generar el atributo colección}
@@ -170,11 +170,13 @@ Ahora el héroe tendrá una colección de misiones:
 Object subclass: #Heroe
 	instanceVariableNames: 'misiones ...'
 \end{code}
+\vspace{\baselineskip}
 
 También vamos a crear una misión posible: BuscarItemMagico, por el momento sin atributos, porque nos queremos
 seguir concentrando en la interfaz y no en la implementación, es decir, qué me ofrece el objeto y no cómo lo
 resuelve.
-
+\newline
+\newline
 Para poder agregar una misión, vamos a definir un método explícito:
 
 \begin{code}
@@ -191,6 +193,7 @@ diego := Heroe new
   agregarMision: (BuscarItemMagico new)
 \end{code}
 
+\vspace{\baselineskip}
 Al intentar enviar el mensaje agregarMision: recibimos el primer error, no existe la clase BuscarItemMagico,
 entonces lo creamos:
 
@@ -211,11 +214,12 @@ Object subclass: #BuscarItemMagico
 		category: 'Kernel-Objects'
 \end{code}
 
+\vspace{\baselineskip}
 Una vez resuelta la creación de la clase, aparece un nuevo error, seleccionamos la opción Debug...
 
 \begin{figure}[h!]
     \centering	
-    \includegraphics[width=0.7\textwidth]{images/11_error_agregarMision.png}
+    \includegraphics[width=1\textwidth]{images/11_error_agregarMision.png}
     \caption{La pantalla de \textit{debugging} muestra que el error ocurre al enviar el mensaje add: a misiones}
 \end{figure}
 \FloatBarrier
@@ -240,7 +244,7 @@ Analyze \textgreater Generate initialize method
 \FloatBarrier
 
 Comenzaremos usando un Set como colección, esto presupone que no nos importa el orden en el que almacenamos las
-misiones y que no hay elementos duplicados: puede haber muchas liberaciones de doncellas, pero cada una 
+misiones y que no hay elementos duplicados: si liberamos dos veces a la misma doncella, cada una 
 representa una misión distinta. El Set es la implementación más equivalente al concepto matemático de conjunto
 que presentamos anteriormente.
 \\
@@ -254,7 +258,7 @@ initialize
 	misiones := Set new.
 \end{code}
 
-
+\vspace{\baselineskip}
 Al grabarlo volvemos al Playground y ejecutamos nuevamente el código mediante Do It
 
 \begin{code}
@@ -262,7 +266,7 @@ diego := Heroe new
   agregarMision: (BuscarItemMagico new)
 \end{code}
 
-
+\vspace{\baselineskip}
 Vemos que el mensaje tuvo efecto inspeccionando la referencia diego: escribimos diego y luego Inspect It:
 
 \begin{figure}[h!]
@@ -282,11 +286,12 @@ diego := Heroe new
   agregarMision: misionX.
 \end{code}
 
-¿Qué diferencia hubiera tenido? Sólo creamos una variable más, esto implica que el objeto BuscarItemMagico 
-tendría una referencia más, algo que le importa al Garbage Collector, no tanto a nosotros.
+¿Qué diferencia tiene respecto a la versión anterior? Sólo creamos una variable más, esto implica
+que el objeto BuscarItemMagico tiene una referencia más, algo que le importa al Garbage Collector,
+no tanto a nosotros.
 
 \begin{figure}[h!]
-    \centering	
+    \centering
     \includegraphics[width=1\textwidth]{images/30_Referencias_colecciones.pdf}
     \caption{Dos referencias hacia el objeto BuscarItemMagico}
 \end{figure}
@@ -298,6 +303,7 @@ tendría una referencia más, algo que le importa al Garbage Collector, no tanto
 misionX := 'Hola'.
 \end{code}
 
+\vspace{\baselineskip}
 La colección de misiones de diego sigue referenciando al mismo objeto original, sólo cambió la referencia
 en mi workspace que yo llamo misionX.
 
@@ -317,12 +323,13 @@ en mi workspace que yo llamo misionX.
 cantidadMisiones
     ^misiones size
 \end{code}
+
 Y lo probamos, sabiendo que nos importa lo que va a devolver porque no es un método que tenga efecto, sino que
 devuelve información, entonces elegimos la opción \textit{Print It}:
 
 \begin{figure}[h!]
     \centering	
-    \includegraphics[width=0.6\textwidth]{images/15_diego_cantidadMisiones.png}
+    \includegraphics[width=0.5\textwidth]{images/15_diego_cantidadMisiones.png}
     \caption{diego tiene por el momento una sola misión}
 \end{figure}
 \FloatBarrier
@@ -339,7 +346,6 @@ tieneMisiones
 
     
 \begin{code}
-
 // Opcion 2
 tieneMisiones
     ^misiones size > 0
@@ -347,7 +353,7 @@ tieneMisiones
 
 Ambas opciones parecen similares, de todas maneras la primera opción es más \textit{expresiva}. En la segunda
 opción hay una traducción implícita: size \textgreater  0.... ah, es si tiene elementos. Es un detalle, 
-pero un detalle que implica tiempo que se pierde cada vez que vaya a leer la implementación de este método.
+pero un detalle que implica tiempo que se pierde cada vez que se vaya a leer la implementación de este método.
 \\
 \\
 Lo probamos...
@@ -365,17 +371,18 @@ Mision > Refactoring > Inst Var Refactoring > Accessors
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/10_accessors.png}
-    \caption{El plantel de jugadores de un equipo como una colección de objetos}
+    \caption{Generando los accessors (getters y setters) para cada propiedad de la clase Mision}
 \end{figure}
 
+\vspace{\baselineskip}
 Dos subclases heredarán de Mision: 
 
 \begin{itemize}
- \item BuscarItemMagico, necesitamos el atributo distanciaMontania
- \item LiberarDoncella, del cual necesitamos el atributo trollsSeguridad
+ \item BuscarItemMagico, que define el atributo distanciaMontania
+ \item LiberarDoncella, con su atributo trollsSeguridad
 \end{itemize}
 
-Cambiaremos dinámicamente la superclase de BuscarItemMagico...
+Cambiaremos dinámicamente la superclase de BuscarItemMagico, reemplazando a Object por Mision...
 
 \begin{code}
 Mision subclass: #BuscarItemMagico
@@ -396,6 +403,7 @@ Mision subclass: #LiberarDoncella
 	category: 'PDP-Book'
 \end{code}
 
+\vspace{\baselineskip}
 Una vez definidos los accessors, nos preguntamos: ¿qué comportamiento tiene una misión? Debe decirnos
 si es difícil. Sabemos que esto depende de algo general (más de 2 meses de iniciada una misión) y se
 especializa en cada subclase. Lo general... se codifica en la clase Misión:
@@ -425,10 +433,12 @@ estaAbierta
       ^fechaCumplimiento isNil       
 \end{code}
 
-Ahora sí el método realmenteEsDificil depende de este requerimiento:
+\vspace{\baselineskip}
+Ahora debemos resolver la implementación del método realmenteEsDificil, que
 \begin{itemize}
- \item si la montaña donde está el ítem a buscar queda a más de 100 kms. o bien 
- \item si la doncella a liberar está custodiada por más de 4 trolls
+ \item para la búsqueda del ítem mágico esto depende de que la montaña donde está el ítem se halle a más 
+ de 100 kms.
+ \item para la liberación de la doncella depende de que esté custodiada por más de 4 trolls
 \end{itemize}
 
 \begin{code}
@@ -442,12 +452,13 @@ realmenteEsDificil
 \end{code}
 
 Por motivos didácticos no vamos a explicar cómo se prueba la funcionalidad recientemente incorporada, pero
-sabemos que este paso es fundamental para no tener inconvenientes con los pasos que vamos a hacer a continuación.
+sabemos que este paso es fundamental para poder avanzar con los siguientes pasos.
 
 \subsection{Nuevas misiones para el héroe}
 Vamos a asociar nuevas misiones a diego:
 
 \begin{code}
+#Workspace
 diego := Heroe new
   agregarMision: (BuscarItemMagico new 
 			distanciaMontania: 1000;
@@ -477,7 +488,9 @@ diego := Heroe new
 \end{code}
 
 \subsection{Filtrar elementos de una colección}
+
 Queremos saber ahora qué misiones están abiertas.
+
 \begin{itemize}
  \item El héroe conoce a sus misiones
  \item pero cada misión debe determinar si está abierta o no (es su \textbf{responsabilidad}). 
@@ -489,6 +502,7 @@ misionesAbiertas
   ^misiones select: [ :mision | mision estaAbierta ] 
 \end{code}
 
+\vspace{\baselineskip}
 Redefinamos el printOn: de Misión para reflejar un poco más de información sobre el objeto:
 
 \begin{code}
@@ -511,14 +525,15 @@ descripcion
   ^'Liberar doncella'
 \end{code}
   
+\vspace{\baselineskip}
 Probamos entonces el nuevo método:
 
 \begin{code}
 diego misionesAbiertas
-   a Set(Liberar doncella para Old man 
-         Liberar doncella para Old man 
-         Buscar item magico para Mago de Oz 
-         Buscar item magico para Mago Cacarulo)
+   a Set(mision - 'Liberar doncella para Old man' 
+         mision - 'Liberar doncella para Old man'
+         mision - 'Buscar item magico para Mago de Oz'
+         mision - 'Buscar item magico para Mago Cacarulo')
 \end{code}
 
 Claro, todas las misiones están abiertas. ¿Cómo cumplimos todas las misiones?
@@ -536,12 +551,14 @@ cumplir
   fechaCumplimiento := Date new
 \end{code}
 
+\vspace{\baselineskip}
 En el Playground le pedimos a diego que cumpla todas sus misiones pendientes:
 
 \begin{code}
 diego cumplirMisiones
 \end{code}
 
+\vspace{\baselineskip}
 Y ahora veamos si efectivamente el método tuvo efecto:
 
 \begin{code}
@@ -557,61 +574,65 @@ Antes de continuar es importante saber que estuvimos usando un concepto central 
 colección tenemos la posibilidad de hacer algo con cada elemento de la colección, por ejemplo
 \begin{itemize}
  \item ignorar determinados elementos
- \item o transformar los elementos de la colección
- \item o utilizar variables de diferente alcance: variables internas al bloque do:, variables locales en el mismo
+ \item utilizar variables de diferente alcance: variables internas al bloque do:, variables locales en el mismo
  método, o variables globales, como las variables de instancia, o las de clase
+ \item de esa manera podemos generar una transformación de los elementos
+ \item o bien totalizar valores
 \end{itemize}
 A lo largo del libro intentaremos pensar nuestras soluciones utilizando abstracciones de más alto nivel, 
 que aumenten la \textbf{declaratividad}, esto es no pensar tanto en el algoritmo, o cómo se resuelve, 
 sino en lo que nosotros queremos lograr (el qué). Para eso utilizaremos objetos \textbf{closures} que
 modelan bloques de código  (los que se encierran entre corchetes) y la rica interfaz de colecciones que
 provee Smalltalk.
-
+\newline
+\newline
 ¿Cómo se modela un bloque de código? Muy fácil:
 
 \begin{code}
 factorialDe5 := [ 5 factorial ].
 \end{code}
 
+\vspace{\baselineskip}
 Esto no ejecuta el factorial de 5, sino que crea un objeto que sabe calcularlo. Para evaluarlo efectivamente, 
-debemos pedírselo:
+se lo debemos pedir enviando el mensaje value
 
 \begin{code}
 factorialDe5 value
     120
 \end{code}
 
+\vspace{\baselineskip}
 También podemos crear objetos bloque donde le pasemos parámetros:
 
 \begin{code}
 factorial := [ :numero | numero factorial ].
 \end{code}
 
-\fd{En el libro Squeak by Example hablan de una expresion lambda , 
-está bueno dejar un |x - x factorial pero sin una explicacion sobre dónde ir a buscar algo de expresiones
-lambda me parece que queda descolgado. Para esta primera iteración yo paso de extenderme más }
-
-Pero ahora ya no podemos evaluarlo con value:
+\vspace{\baselineskip}
+Pero ahora ya no podemos evaluarlo con value a secas:
 
 \begin{code}
 factorial value
 \end{code}
 
+\vspace{\baselineskip}
 Esto nos muestra el mensaje de error:
 
 \begin{figure}[h!]
     \centering	
-    \includegraphics[width=0.9\textwidth]{images/17_error_bloque.png}
+    \includegraphics[width=1\textwidth]{images/17_error_bloque.png}
     \caption{El bloque espera un parámetro y no se lo pasamos}
 \end{figure}
 \FloatBarrier
 
+\vspace{\baselineskip}
 Ahora si enviamos el valor, podemos calcular el factorial correspondiente:
 
 \begin{code}
 factorial value: 5
 \end{code}
 
+\vspace{\baselineskip}
 Tener un objeto bloque nos permite modelar, por ejemplo, un criterio de búsqueda ad-hoc:
 
 \begin{code}
@@ -621,19 +642,22 @@ misionesConRecompensaMayorA: unValor
   ^misiones select: criterio 
 \end{code}
 
-Esto nos permite probar:
+Y lo podemos probar de la siguiente manera:
 
 \begin{code}
 diego misionesConRecompensaMayorA: 2000
 \end{code}
 
+\vspace{\baselineskip}
 El criterio es un bloque que recibe un parámetro llamado mision (que es cualquier objeto que entienda el mensaje
 recompensa) y devuelve un valor booleano. Lo podemos probar en un workspace:
 
 \begin{code}
-[ :mision | mision recompensa > 2000 ] value: (LiberarDoncella new recompensa: 5000)
+[ :mision | mision recompensa > 2000 ] 
+     value: (LiberarDoncella new recompensa: 5000)
 \end{code}
 
+\vspace{\baselineskip}
 Cuántos objetos intervienen:
 
 \begin{itemize}
@@ -643,7 +667,47 @@ Cuántos objetos intervienen:
 
 Tener al bloque de código como abstracción me permite separar dos momentos: cuando creo al objeto y le digo lo
 que tiene que hacer, y cuando efectivamente lo ejecuta (enviándole el mensaje value, value: o value:value: en
-base a la cantidad de parámetros que tenga). Por otra parte los mensajes select:, collect: 
+base a la cantidad de parámetros que tenga). Por otra parte el mensaje select: se construye sin demasiado esfuerzo
+una vez conocido al objeto bloque:
+
+\begin{code}
+#Collection
+select: unCriterio
+    | aux |
+    aux := Set new.  // en realidad se utiliza otra tecnica
+    self do: [ :elemento | 
+         (unCriterio value: elemento) 
+               ifTrue: [ aux add: elemento ] 
+         ].
+    ^aux
+\end{code}
+
+\vspace{\baselineskip}
+Cualquier desarrollador que utilice select: se ve beneficiado porque evita los detalles algorítmicos del filtrado
+de los elementos que cumplen una condición. Sólo nos concentramos en definir el criterio, no necesitamos crear
+variables temporales, ni escribir condicionales (\textit{ifs}), por lo tanto, al utilizar una solución declarativa
+hay menos posibilidades de cometer errores:
+
+\begin{code}
+misiones select: [ :mision | mision esDificil ]
+\end{code}
+
+vs.
+
+\begin{code}
+| misionesDificiles |
+misionesDificiles := Set new.
+misiones do: 
+    [ :mision | (mision esDificil)
+                        ifTrue: [ misionesDificiles add: mision ]
+    ]
+^misionesDificiles    
+\end{code}
+
+\vspace{\baselineskip}
+En la segunda solución puedo: 1) olvidarme de instanciar una nueva colección, 2) equivocarme al hacer add:, 3) y 
+además puedo escribir mal la condición. En la primera solución sólo puedo equivocarme en una cosa: la condición.
+De lo demás se encarga el método select:.
 
 \section{Operaciones con y sin efecto}
 
@@ -681,6 +745,7 @@ solicitantes
    ^(misiones collect: [ :mision | mision solicitante ]) asSet
 \end{code}
 
+\vspace{\baselineskip}
 Y lo probamos 
 
 \begin{code}
@@ -708,12 +773,12 @@ misionConBuenaRecompensa
 
 
 \subsection{Totalizar valores de una colección}
-Un nuevo requerimiento surge: hay que conocer la recompensa que obtendremos si cumplimos todas las misiones.
+Surge un nuevo requerimiento: hay que conocer la recompensa que obtendremos si cumplimos todas las misiones.
 Esto implica sumar la recompensa de cada misión que esté pendiente. Tenemos varias opciones:
 \\
 \begin{itemize}
- \item iterar la colección mediante un do:, y utilizar una variable intermedia para acumular la recompensa
- preguntando previamente si la tarea se encuentra pendiente
+ \item iterar la colección mediante un do:, preguntar a cada misión si se encuentra pendiente y en ese caso
+ acumular en una variable la recompensa de dicha misión
  \item transformar las misiones pendientes en una colección de recompensas y sumarlas (aquí mediante do: o 
  bien enviando el mensaje sum. Para ver dónde está implementado pueden ubicarse en un workspace, escribir sum, 
  botón derecho y elegir Code search... \textgreater Implementors of it, o bien ver sus usos mediante botón derecho,
@@ -721,83 +786,85 @@ Esto implica sumar la recompensa de cada misión que esté pendiente. Tenemos va
  \item y la tercera opción es sumarizar las tareas pendientes mediante el mensaje inject:into:
 \end{itemize}
 
-Veamos la solución primero:
+Implementamos la tercer variante de la siguiente manera:
 
 \begin{code}
 #Heroe
 recompensaPendiente
    ^self misionesAbiertas 
          inject: 0 
-	 into: [ :total :mision | total + mision recompensa ]
+         into: [ :total :mision | total + mision recompensa ]
 \end{code}
 
-Lo probamos luego en un workspace, con la opción Print It, claro está:
+\vspace{\baselineskip}
+Para poder probar la solución, volvemos a inicializar la colección de misiones de diego, y luego
+enviamos este mensaje, con la opción Print It, claro está:
 
 \begin{code}
 diego recompensaPendiente
   24500
 \end{code}
 
+\vspace{\baselineskip}
 El método inject:into: permite reducir la colección a la expresión deseada, es un método poderoso una vez que
 nos acostumbramos a su sintaxis. Lo que necesita es
 
 \begin{itemize}
  \item un valor inicial a inyectarse 
- \item un bloque de código que acepte dos argumentos y que devuelva el nuevo valor que se pasa a cada iteración siguiente
+ \item un bloque de código que acepta dos argumentos: el primero es el valor intermedio, el segundo es
+ cada elemento de la colección y devuelve el nuevo valor que se construye para la iteración siguiente
+ (hasta que resulta ser el resultado final del método inject:into:)
 \end{itemize}
 
-al final de la última iteración se devuelve el resultado final.
-\\
-\\
-Veamos el requerimiento que trae solicitantes con inject: into:
+\vspace{\baselineskip}
+Consideremos ahora que dado un conjunto de héroes queremos obtener un conjunto con todas sus misiones.
+Nosotros tenemos n héroes, pero a su vez cada héroe tiene n misiones. Si pensamos en hacer un collect
 
 \begin{code}
-#Heroe
-solicitantesConInject
-   ^misiones inject: Set new 
-             into: [ :solicitantes :mision | 
-	             solicitantes add: mision solicitante. 
-	             solicitantes  ] 
+#Workspace
+heroes := Set new.
+heroes add: diego.
+chino := Heroe new 
+               nombre: 'chino';
+               agregarMision: (LiberarDoncella new
+                                   recompensa: 200;
+                                   solicitante: 'Mago Capria';
+                                   trollsSeguridad: 2;
+                                   fechaInicio: Date today;
+                                   yourself).
+heroes add: chino.
+
+heroes collect: [ :heroe | heroe misiones ]
+     a Set(
+              a Set(Liberar doncella pedido para Old man 
+                    Buscar item magico pedido para Mago de Oz 
+                    Buscar item magico pedido para Mago Cacarulo 
+                    Liberar doncella pedido para Old man) 
+              a Set(Liberar doncella pedido para Mago Capria))
 \end{code}
 
-¿Qué necesitamos?
-\\
-\begin{itemize}
- \item un Set como valor inicial
- \item un bloque de código que vaya inyectando los solicitantes de cada misión. 
-\end{itemize}
-
-¿Por qué en la última línea del bloque devolvemos los solicitantes? Porque si nos fijamos la implementación de
-add: en Set (escribimos add: y con alt + m buscamos la implementación de Set):
+esto nos devuelve una colección de colecciones, que no es lo que queremos... 
+\newline
+\newline
+Pero podemos utilizar inject: into:, sabiendo que nuestro valor inicial será un Set nuevo,
+y el valor intermedio se construye uniendo el conjunto intermedio con el conjunto de misiones de cada uno de
+los héroes que participa de la colección:
 
 \begin{code}
-#Set
-add: newObject
-	"Include newObject as one of the receiver's elements, but only if
-	not already present. Answer newObject."
-
-	| index |
-	index := self scanFor: newObject.
-	(array at: index) ifNil: [self atNewIndex: index put: newObject asSetElement].
-	^ newObject
+heroes inject: Set new
+       into: [ :total :heroe | total union: heroe misiones ]
+       
+a Set(Buscar item magico pedido para Mago Cacarulo 
+      Buscar item magico pedido para Mago de Oz 
+      Liberar doncella pedido para Old man 
+      Liberar doncella pedido para Mago Capria 
+      Liberar doncella pedido para Old man)       
 \end{code}
 
-El método add: devuelve el objeto insertado, esto no es lo que el bloque necesita...
+(el método union: lo veremos más adelante)
 
-\begin{code}
-[ :solicitantes :mision | solicitantes add: mision solicitante ] 
-\end{code}
-
-produce que en la variable local solicitantes se referencie al solicitante de cada misión, no al conjunto de
-solicitantes de todas las misiones. Por eso al final de nuestro bloque devolvemos la colección temporal:
-
-\begin{code}
-          ... into: [ :solicitantes :mision | 
-	             solicitantes add: mision solicitante. 
-	             solicitantes  ] 
-\end{code}
-
-Si queremos saber cuál es la mayor recompensa también podemos utilizar inject:into:, basta
+\vspace{\baselineskip}
+Si queremos saber cuál es la mayor recompensa también podemos utilizar inject: into:, basta
 con que el bloque de código tome el mayor valor entre la máxima recompensa hasta el momento y
 la de cada misión. El valor inicial puede ser 0:
 
@@ -808,11 +875,15 @@ mayorRecompensa
              into: [ :maxRecompensa :mision | maxRecompensa max: mision recompensa ] 
 \end{code}
 
+\vspace{\baselineskip}
 Incluso la longitud de una colección puede calcularse con un inject: into: ...
 
 \begin{code}
-lista inject: 0
-      into: [ :total :elemento | total + 1 ] 
+#Workspace
+conjunto := Set new.
+...
+conjunto inject: 0
+         into: [ :total :elemento | total + 1 ] 
 \end{code}
 
 
@@ -834,30 +905,38 @@ max: otraMision
           ifFalse: [ otraMision ]
 \end{code}
 
+\vspace{\baselineskip}
 Pero otra opción consiste en ordenar las misiones por recompensa, y tomar el primer elemento:
 
 \begin{code}
 misionConMayorRecompensaSort
-   ^(misiones asSortedCollection: [ :mision1 :mision2 | mision1 recompensa > mision2 recompensa ])
-       first
+   ^(misiones asSortedCollection: 
+     [ :mision1 :mision2 | mision1 recompensa > mision2 recompensa ])
+     first
 \end{code}
 
+(los paréntesis son obligatorios para separar al bloque del mensaje first)
+
+\vspace{\baselineskip}
 El mensaje \textbf{asSortedCollection:} genera una nueva colección en base al criterio de ordenamiento, definido
 por un bloque que dice, dado dos elementos, cuál va primero y cuál segundo. Para ordenar alfabéticamente
 de menor a mayor una lista de verduras representadas como strings, escribimos en un workspace: 
 
 \begin{code}
-#('Rucula' 'Tomate' 'Lechuga' 'Apio') asSortedCollection: [ :a :b | a < b ]
+#('Rucula' 'Tomate' 'Lechuga' 'Apio') 
+    asSortedCollection: [ :a :b | a < b ]
+    
     a SortedCollection('Apio' 'Lechuga' 'Rucula' 'Tomate')
 \end{code}
 
-Más adelante veremos el tipo de colección generada, que recordamos \textbf{no afecta} la colección original.
+\vspace{\baselineskip}
+Más adelante veremos el tipo de colección generada, que \textbf{no afecta} la colección original.
 
 \section{Operatorias con conjuntos}
 
 Como dijimos anteriormente, las colecciones son una implementación posible del concepto matemático de conjunto.
 Ya hemos visto los mensajes isEmpty, notEmpty que permiten determinar si un elemento está o no en una colección.
-Ahora veremos algunos ejemplos breves de lógica de conjuntos.
+Ahora veremos algunos ejemplos de lógica de conjuntos.
 
 \subsection{Elemento contenido en un conjunto}
 
@@ -886,11 +965,23 @@ diego debeCumplirMisionPara: 'Mago de Oz'
 \( \exists x \in X, p(x) \)
 \end{mdframed}
 
-Llega un nuevo requerimiento: saber si hay alguna misión difícil. Esto puede hacerse de varias maneras
+Queremos saber si hay alguna misión difícil. Esto puede hacerse de varias maneras
 
 \begin{itemize}
  \item Iterando la colección con un do: y preguntando si la misión actual es difícil. En ese caso debemos
- cortar la secuencia y devolver true. Si almacenamos el resultado en una variable temporal podemos olvidarnos
+ cortar la secuencia y devolver true. Si almacenamos el resultado en una variable temporal...
+ 
+\begin{code}
+hayAlgunaMisionDificilConDo
+    | result | 
+    result := false
+    misiones do: [ :mision | (mision esDificil) 
+                                 ifTrue: [ result := true ]
+                 ].
+    ^result
+\end{code}
+
+ podemos olvidarnos
  de hacer el corte de la iteración, algo que sucede típicamente cuando nuestra solución está muy atada al algoritmo
  \item Otra opción puede ser heroe misionesDificiles notEmpty, lo que requiere generar
  un método misionesDificiles
@@ -901,10 +992,12 @@ Llega un nuevo requerimiento: saber si hay alguna misión difícil. Esto puede h
 Y lo resolvemos de esta manera:
 
 \begin{code}
+#Heroe
 tieneAlgunaMisionDificil
       ^misiones anySatisfy: [ :mision | mision esDificil ] 
 \end{code}
 
+\vspace{\baselineskip}
 Lo probamos
 
 \begin{code}
@@ -912,13 +1005,16 @@ diego tieneAlgunaMisionDificil
     false
 \end{code}
 
-Para preguntar por todas utilizamos el mensaje allSatisfy:
+\vspace{\baselineskip}
+Para preguntar si todas las misiones cumplen alguna condición utilizamos el mensaje allSatisfy:
 
 \begin{code}
 diego misionesAbiertas 
     allSatisfy: [ :mision | mision recompensa > 500 ]
     false
 \end{code}
+
+\vspace{\baselineskip}
 
 \subsection{Unión de conjuntos}
 
@@ -938,6 +1034,7 @@ recompensaTotal
             into: [ :total :cosa | total + cosa recompensa ]
 \end{code}
 
+\vspace{\baselineskip}
 Para ``sumar'' misiones y amigos podemos apelar a una de estas dos estrategias:
 
 \begin{itemize}
@@ -970,7 +1067,8 @@ misionesConConflictosDeInteresesCon: otroHeroe
      ^otroHeroe misiones intersection: self misiones
 \end{code}
 
-Debemos crear el accessor ``misiones'' para la variable misiones en Héroe, solamente necesitamos el getter. 
+\vspace{\baselineskip}
+Debemos crear el getter ``misiones'' para la variable misiones en Héroe. 
 Ahora sí, lo probamos: generamos a nuestro nuevo héroe Ricardo, y le pasamos una misión de Diego, 
 para eso enviamos el mensaje anyOne, que nos devuelve cualquier elemento de la colección:
 
@@ -981,7 +1079,7 @@ para eso enviamos el mensaje anyOne, que nos devuelve cualquier elemento de la c
  diego misionesConConflictosDeInteresesCon: ricardo
 \end{code}
 
-La última línea la imprimimos y vemos que aparece un Set con alguna de las misiones de Diego.
+Cuando seleccionamos ``Print It'' vemos que aparece un Set con alguna de las misiones de Diego.
 
 \subsection{Diferencia de conjuntos}
 
@@ -1001,6 +1099,7 @@ Ricardo tiene una nueva misión:
 			yourself).
 \end{code}
 
+\vspace{\baselineskip}
 ¿Cómo sabemos qué misiones tiene exclusivamente ricardo y no diego?
 
 \begin{code}
@@ -1009,6 +1108,7 @@ misionesExclusivasQueNoTiene: otroHeroe
     ^misiones difference: otroHeroe misiones
 \end{code}
 
+\vspace{\baselineskip}
 Lo probamos
 
 \begin{code}
@@ -1056,6 +1156,7 @@ diego misiones at: 2
   'Error: Instances of Set are not indexable'
 \end{code}
 
+\vspace{\baselineskip}
 De todas maneras, en Smalltalk tenemos una gran variedad de ``sabores'' en cuanto a colecciones, en base a
 
 \begin{itemize}
@@ -1080,18 +1181,18 @@ suelen agregar nuevos elementos mediante el mensaje add: y eliminarlos mediante 
 Representa una bolsa, o valija, donde guardamos ``cosas''. Como toda valija, las cosas están desordenadas: 
 encontrar algo puede llevar tiempo. Sirve para representar un conjunto donde los elementos pueden 
 repetirse. La cantidad de elementos es variable. Un ejemplo posible puede ser un carrito de compras 
-de un supermercado: llevamos 7 latas de duraznos en almíbar, 2 paquetes de harina, 8 gaseosas y 1 levaduras. 
+de un supermercado: llevamos 7 latas de duraznos en almíbar, 2 paquetes de harina, 8 gaseosas y 1 yoghurt. 
 
 \subsection{Set}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/40_Set.pdf}
+    \includegraphics[width=0.8\textwidth]{images/40_Set.pdf}
     \caption{Un conjunto de elementos, sin orden ni duplicados}
 \end{figure}
 \FloatBarrier
 
-Es el conjunto matemático, y respeta la definición de que no hay elementos repetidos, ni orden. Pero mientras
+Es el conjunto matemático, y respeta su definición: no hay elementos repetidos, ni orden. Pero mientras
 el conjunto matemático es fijo, el Set de Smalltalk permite agregar o eliminar dinámicamente elementos. 
 Un dato importante es que la forma de asegurar que los elementos no se repiten está basado en dos mensajes:
 \textbf{=} (la igualdad que se puede redefinir) y \textbf{hash} (un número que se asocia a cada objeto).
@@ -1136,7 +1237,7 @@ heroes size
 \end{code}
 
 La respuesta es claramente \textbf{2}. Si borramos las definiciones de = y hash y volvemos a evaluar 
-el código de arriba, ahora vemos que la respuesta es \textbf{3}. Es importante tener esto en cuenta cuando
+el código de arriba, la respuesta cambia a \textbf{3}. Es importante tener esto en cuenta cuando
 vayamos a utilizar un Set para modelar una colección.
 
 \subsection{Dictionary}
@@ -1144,14 +1245,15 @@ vayamos a utilizar un Set para modelar una colección.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/40_Dictionary.pdf}
-    \caption{El Dictionary permite acceder a los elementos por clave, un String o cualquier otro objeto}
+    \caption{El Dictionary permite acceder a los elementos por clave, en el ejemplo es un String
+    pero podría tratarse de cualquier otro objeto}
 \end{figure}
 \FloatBarrier
 
 Mientras que Bag y Set no tienen una forma de acceder a un cierto elemento, el Dictionary permite generar un
 mapa de valores accesibles mediante una clave, lo que resulta en un conjunto de pares clave-valor. El ejemplo
 típico de este tipo de colecciones es la agenda de contactos, y son muy útiles cuando necesitamos
-encontrar los elementos en forma rápida. Dado que las claves no pueden repetirse, Dictionary hereda
+acceso directo a los elementos. Dado que las claves no pueden repetirse, Dictionary hereda
 comportamiento de Set. 
 \\
 \\
@@ -1166,6 +1268,7 @@ agenda at: 'bocha' put: ricardo.
 agenda at: 'diegote'
 \end{code}
 
+\vspace{\baselineskip}
 Para iterar un Dictionary tenemos tres opciones
 
 \begin{itemize}
@@ -1199,7 +1302,7 @@ lista o selector: si las opciones se ordenan distinto cada vez eso produce incom
 \\
 La clase OrderedCollection define el método add: para que se comporte como un addLast:, es decir que cada
 elemento se agrega último a la colección. Podemos implementar un modelo de pila si agregamos los elementos
-enviando los mensajes addFirst: y removeFirst, como vemos en el ejemplo:
+enviando el mensaje addFirst: y los eliminamos mediante el removeFirst, como vemos en el ejemplo:
 
 \begin{code}
 pila := OrderedCollection new.
@@ -1209,15 +1312,19 @@ pila addFirst: 5.5.
 pila removeFirst.
 pila
   an OrderedCollection('soy un string' 3)
-\end{code}
 
+pila removeFirst.
+pila
+  an OrderedCollection(3)
+\end{code}
 
 \subsection{SortedCollection}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/40_SortedCollection.pdf}
-    \caption{En una colección con un criterio de ordenamiento específico, los elementos se van ubicando en base a dicho criterio}
+    \caption{En una colección con un criterio de ordenamiento específico, los elementos se van ubicando en ese orden
+    conforme se van insertando}
 \end{figure}
 \FloatBarrier
 
@@ -1234,6 +1341,7 @@ determinado cuando tenemos que sacar informes de
 \end{itemize}
 etc. 
 
+\vspace{\baselineskip}
 Esto lo hacemos enviando el mensaje asSortedCollection:
 
 \begin{code}
@@ -1242,6 +1350,7 @@ diego misionesAbiertas asSortedCollection:
     [ :mision1 :mision2 | mision1 recompensa > mision2 recompensa ]
 \end{code}
 
+\vspace{\baselineskip}
 El lector puede probar lo siguiente:
 
 \begin{code}
@@ -1257,8 +1366,8 @@ de ordenamiento de los elementos: si el bloque devuelve true el primer elemento 
 en caso contrario el segundo elemento se ordena antes que el primero.
 \\
 \\
-También podemos utilizar el mensaje asSortedCollection que toma ``el orden natural de los elementos'',
-esto implica que los objetos deben entender el mensaje \textless= :
+También podemos utilizar el mensaje asSortedCollection sin parámetros que toma ``el orden natural de los 
+elementos'', esto implica que los objetos deben entender el mensaje \textless= :
 
 \begin{code}
 #Workspace
@@ -1266,6 +1375,7 @@ esto implica que los objetos deben entender el mensaje \textless= :
   a SortedCollection(4 8 15 16 23 42)
 \end{code}
 
+\vspace{\baselineskip}
 Esto no funciona para héroes:
 
 \begin{code}
@@ -1274,7 +1384,8 @@ heroes asSortedCollection
   {mensaje de error: Heroe no entiende el mensaje <=}
 \end{code}
 
-A menos de que explícitamente definamos un método \textless= en Heroe:
+\vspace{\baselineskip}
+Salvo que explícitamente definamos un método \textless= en Heroe:
 
 \begin{code}
 #Heroe
@@ -1296,6 +1407,7 @@ heroes asSortedCollection
 No siempre es necesario trabajar con un conjunto dinámico de elementos. Dejar abierta esa posibilidad cuesta
 espacio o tiempo, entonces podemos trabajar con una cantidad fija de elementos.
 
+\vspace{\baselineskip}
 El \textbf{Array}, también conocido como vector, trabaja con elementos que se acceden por índice posicional
 numérico.
 \newline
@@ -1306,9 +1418,10 @@ En general, no tiene sentido enviar el mensaje add: si la colección es estátic
 #Workspace
 diasDeLaSemana := Array new: 7.
 diasDeLaSemana add: 'DiaExtra'.   
-{mensaje de error: #add should not have been implemented in Array}
+{mensaje de error: '#add should not have been implemented in Array'}
 \end{code}
 
+\vspace{\baselineskip}
 En el caso del Array, accedemos a los elementos mediante un mensaje at: y los actualizamos a partir del mensaje
 at:put:
 
@@ -1318,6 +1431,7 @@ diasDeLaSemana at: 1 put: 'Lunes'.
 diasDeLaSemana at: 1
 \end{code}
 
+\vspace{\baselineskip}
 Otra variante es el \textbf{String}, que es una secuencia de caracteres \textit{mutable}, se construye
 mediante un literal (las comillas simples).
 
@@ -1329,9 +1443,11 @@ nombre2
     Maura
 \end{code}
 
+\vspace{\baselineskip}
 El lector interesado puede ver los mensajes match:, format:, expandMacrosWith:, capitalized, asUppercase,
 asLowercase, asNumber, entre otros.
 
+\vspace{\baselineskip}
 Por último el objeto \textbf{Interval} permite modelar un rango de valores numérico.
 
 \begin{code}
@@ -1353,8 +1469,8 @@ jugadores asBag
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/40_Bag.pdf}
-    \caption{En una bolsa o \textit{bag}, tenemos la referencia a n objetos con la cantidad de veces que se repite}
+    \includegraphics[width=1.1\textwidth]{images/50_JerarquiaColecciones.pdf}
+    \caption{Jerarquía de la clase Collection, en blanco las clases abstractas, en gris las concretas}
 \end{figure}
 \FloatBarrier
 
@@ -1367,7 +1483,7 @@ Algunas clases extras que el lector puede investigar:
  de actualización sincronizados.
  \item \textbf{ByteArray}: una especialización del Array que contiene enteros del 0 al 255.
  \item \textbf{Stream}: la representación del acceso a un conjunto de datos cuyo origen puede ser un socket, un
- archivo, entre otros. De esta clase abstracta heredan ReadStream, WriteStream, TextStream, entre otros.
+ archivo, etc. De esta clase abstracta heredan ReadStream, WriteStream, TextStream, entre otros.
  \item \textbf{IdentitySet, IdentityBag, IdentityDictionary}: son colecciones que basan el criterio de búsqueda
  en la identidad (==) en lugar de la igualdad (=)
  \item \textbf{KeyedTree}: representa un árbol cuyos nodos se acceden por clave.
@@ -1420,17 +1536,17 @@ Aquí dejamos otra tabla en la que generamos una clasificación de las coleccion
 características:
 
 \begin{itemize}
- \item \textbf{ser secuenciales}: implica que hay un orden de los elementos
- \item \textbf{ser indexados}: se manejan con un índice entero, string o cualquier otro. Entienden el mensaje at:
- \item \textbf{que se pueden ordenar}: el orden no tiene que ver con el momento en que se agregan
+ \item \textbf{secuenciales}: implica que hay un orden de los elementos
+ \item \textbf{indexados}: se manejan con un índice entero, string o cualquier otro. Entienden el mensaje at:
+ \item \textbf{se pueden ordenar}: el orden no tiene que ver con el momento en que se agregan
  sino con un criterio que se define (por nombre de menor a mayor, por recompensa de mayor a menor, etc.)
  \item \textbf{con claves}: implica que podemos acceder a un elemento a partir de alguna clave. El mensaje
  at: permite utilizar algo más que un número.
- \item \textbf{que puede crecer}: de lo contrario son de tamaño fijo
- \item \textbf{con duplicados}: donde los elementos pueden repetirse
+ \item \textbf{puede crecer}: de lo contrario son de tamaño fijo
+ \item \textbf{acepta duplicados}: donde los elementos pueden repetirse
 \end{itemize}
 
-En la presente tabla clasificamos las colecciones de objetos heterogéneos más utilizadas:
+En la presente tabla clasificamos las colecciones más utilizadas:
 \newline
 
 \begin{tabular}{|l|c|c|c|c|c|c|}
@@ -1459,8 +1575,8 @@ Con duplicados & & $\surd$ & $\surd$ & $\surd$ & (*) & $\surd$ \\
 
 \subsection{Cómo elegir el tipo de colección}
 
-Si existen dudas a la hora de elegir una colección de elementos que son heterogéneos, esto es, que no se trata
-de una colección de caracteres, le proporcionamos al lector un ayudamemoria que puede ser de utilidad:
+Si existen dudas a la hora de elegir una colección de elementos general, le proporcionamos al
+lector un ayudamemoria que puede ser de utilidad:
 
 \begin{itemize}
  \item Si la cantidad de elementos es fija, una pregunta importante es cuántas veces necesitamos acceder
@@ -1545,6 +1661,7 @@ siguiente
    ^heroes at: indice
 \end{code}
 
+\vspace{\baselineskip}
 Si lo probamos en un playground veremos cómo se genera el turno de cada héroe:
 
 \begin{code}
@@ -1570,8 +1687,8 @@ Hemos visto en el presente capítulo
 \begin{itemize}
  \item que las colecciones son un concepto fundamental en el diseño orientado a objetos para modelar un conjunto
  de elementos que están relacionados. 
- \item a diferencia de los vectores de los lenguajes imperativos, tenemos una interfaz de mensajes muy rica que
- incluyen métodos para filtrar los elementos, transformarlos en otra colección, reducir los elementos para obtener
+ \item que las colecciones proveen una interfaz de mensajes muy rica que incluyen métodos para
+ filtrar los elementos, transformarlos en otra colección, reducir los elementos para obtener
  un valor, encontrar un elemento, o trabajar con la lógica de conjuntos
  \item esta gran cantidad de mensajes permite subir el nivel de abstracción, despegando al desarrollador de la
  parte algorítmica repetitiva, mediante el uso de los objetos bloque
