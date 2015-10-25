@@ -1,0 +1,88 @@
+﻿Manejo de errores
+por Gisela Decuzzi
+
+Resulta que en la facu las clases arrancan temprano... tan temprano que uno con el tiempo desarrolla la habilidad de llegar dormido a clase, sin importar el tiempo que tarde o la distancia que sea necesario recorrer.
+Como todos los lunes, se hace complicado arrancar, entonces... fui a buscar el cafe mas cargado que podía encontrar y por suerte el buffete lo tenia.
+Divertido fué cuando quise pagar y me di cuenta de que en la mochila no tenia la billetera, y casi como un deja buh, recordé sacarla de la mochila y dejarla ahí, ahí arriba de la mesa
+¿Y ahora qué hago?
+
+
+
+
+
+
+Introducción
+Que levante la mano al que no le pasó NUNCA una situación similar a esta... ¿Y qué hiciste? ¿Y que pasó con el café?
+Bueno por suerte en mi historia iba todos los días a comprar el mismo café y como me conocían me dijeron... dejá, pagamelo mañana.
+
+Esto no solo nos habla de que la gente del buffete se copa y entiende la necesidad de dependencia que mantengo con la cafeina por las mañanas sino de que lo que me paso ese Lunes es algo nuevo, algo que no esperaba... olvidarme la billetera y por ende que se me dificulte mi objetivo: tomar café.
+Al final mi historia termina con un final feliz, pero podría haber terminado sin mi café o con él pero por motivos distintos.
+
+La situación normal
+Como cuando nos dicen que algo está en CNPT (condiciones normales de presion y temperatura), es el caso general, lo que espero y la hipotesis sobre la que valen las reglas que voy a seguir diciendo.
+En el caso del café, yo espero tener la plata para poder pagarlo, en especial despues que lo pedi!
+
+Si estoy ... <EJEMPLO DEL JUEGO PREVIO QUE HAYAN PUESTO Y PUEDA PASAR ALGO, SI SE PUEDE UNA DIVISION POR 0>
+
+¿Y si <VER EJEMPLO> es 0? No vamos a enojar a los profes de analisis matematico diciendo que es infinito... cuando ya se cansaron de decirnos que es una indeterminación matemática.
+Eso quiere decir que no puedo dividir por 0 ==> ahora mi código debería de verse como:
+
+if( != 0)
+........
+Pero si realmente alguien pone un 0 ahí ¿qué hago?
+
+¿Que es un error?
+Lo define como:
+"todo aquel sucedo que sale del flujo esperado"
+
+
+
+
+
+
+El miedo de que mi programa se rompa
+
+
+Y la traza de ejecución exactamente era...
+
+
+¿Por que nos interesa distinguir el caso?
+Básicamene porque es un caso que podría pasar, si bien las probabilidades de ocurrencia son bajas, nuestro código es genérico.
+Y como la computadora es una máquina tonta que solo sabe hacer lo que le decimos, cuando pase algo en el cual se rompen las hipotesis que teníamos el programa no va a saber responder, y por ende vamos a estar en un problema.
+
+Ahora, cuando hablo de saber responder esto no implica exactamente resolver la situación que se presentó, para un programa saber "responder" puede implicar simplemente dar un poco de feedback al usuario diciendole que algo no salió como esperabamos y debería reintentar.
+Algo MUY distinto a querer hacer una acción y que "no pase nada".
+Imaginate que estas en el cajero electrónico, pusiste el pin elegiste de que cuenta vas a sacar plata, pusiste el monto, el cajero empezó a hacer ruidos (como esos que hace cuando nos esta por dar la plata) pero de golpe te devolvió la tarjeta y volvio a la pantalla de inicio.
+
+Ahí yo me preocuparía y quisiera saber que pasó ¿computo mi opración? AKA ¿me desconto la plata? ¿donde estan mis biletes? ¿que fue todo eso? ¿no tenía saldo? ¿no habia suficientes billetes? 
+Distinto hubiese sido que en la pantalla me diga algo como: "Este cajero no cuenta con suficientes billetes para completar su operación"
+
+Pensandolo como el programador del cajero, el flujo normal es que la maquina este cargada y pueda satisfacer el pedido (por lo general los cajeros automaticos son para extraer dinero), pero el caso donde los fondos son insuficientes es algo que debemos contemplar.
+
+
+Estrategias de manejo de errores
+
+
+Codigos de retorno
+En esta estrategia asusmimos que el valor de retorno de lo que estamos haciendo nos da información del resultado de la acción y establecemos cierto protocolo.
+Un ejemplo muy común es devolver true si se pudo realizar la acción y false en caso contrario.
+Pero hay veces que no alcanza con un simple si o no y las cosas se complejizan, en especial si queremos dar mas información de lo ocurrido.
+
+
+
+
+
+
+ - Códigos de retorno
+ 
+ - Excepciones
+	Que es una excepcion
+	Que podemos hacer cuando pasa una
+	Alternativas para su manejo
+	La excepción sube o la excepción burbujea
+
+
+
+¿Quien debe tratar "todas" las excepsiones?
+
+
